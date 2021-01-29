@@ -1,10 +1,13 @@
-const logger = require('./src/utils/logger');
-const path = require('path');
+import { CustomLogger } from './src/utils/logger';
+import path = require('path');
 import { CommandoClient } from "discord.js-commando";
+import dotenv = require('dotenv');
 
-// Env variable
-const dotenv = require('dotenv');
+// Env config
 dotenv.config();
+
+//Logger
+const logger = new CustomLogger();
 
 const client = new CommandoClient({
   commandPrefix: process.env.PREFIX,
@@ -27,12 +30,11 @@ client.registry
   });
 
 client.once('ready', () => {
-  console.log(path.join(__dirname, 'src/commands'))
-  logger.log('info', `Logged in as ${client.user?.tag}! (${client.user?.id})`);
-  logger.log('info', 'Ready & up and running! 🚀🚀🚀');
+  logger.logInfo(`Logged in as ${client.user?.tag}! (${client.user?.id})`);
+  logger.logInfo('Ready & up and running! 🚀🚀🚀');
 });
 
-client.on('warn', (m: any) => logger.log('warn', m));
-client.on('error', (m: any) => logger.log('error', m));
+client.on('warn', (m) => logger.logWarn(m));
+client.on('error', (m) => logger.logError(m));
 
 client.login(process.env.TOKEN);
