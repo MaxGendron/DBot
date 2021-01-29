@@ -1,0 +1,6 @@
+{
+  "watch": ["src", "index.ts", "locales"],
+  "ext": ".ts,.js,.json",
+  "ignore": [],
+  "exec": "ts-node index.ts"
+}
