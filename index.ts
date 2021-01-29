@@ -1,4 +1,4 @@
-import { CustomLogger } from './src/utils/logger';
+import { CustomLogger } from './src/utils/custom-logger';
 import path = require('path');
 import { CommandoClient } from "discord.js-commando";
 import dotenv = require('dotenv');
