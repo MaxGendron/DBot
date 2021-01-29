@@ -1,0 +1,32 @@
+{
+  "name": "dbot",
+  "version": "1.0.0",
+  "description": "Discord bot",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon -e js,json index.js",
+    "format": "prettier --write .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MaxGendron/DBot.git"
+  },
+  "author": "Maxime Gendron (@maxgendron)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MaxGendron/DBot/issues"
+  },
+  "homepage": "https://github.com/MaxGendron/DBot#readme",
+  "dependencies": {
+    "discord.js": "^12.5.1",
+    "dotenv": "^8.2.0",
+    "nodemon": "^2.0.7"
+  },
+  "devDependencies": {
+    "eslint": "^7.18.0",
+    "eslint-config-prettier": "^7.2.0",
+    "eslint-plugin-import": "^2.22.1",
+    "prettier": "2.2.1"
+  }
+}
