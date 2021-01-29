@@ -1,7 +1,13 @@
 const fs = require('fs');
+const logger = require('./utils/logger');
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const cooldowns = new Discord.Collection();
+
+// Env variable
+const dotenv = require('dotenv');
+dotenv.config();
+const prefix = process.env.PREFIX;
 
 // Commands
 client.commands = new Discord.Collection();
@@ -12,13 +18,8 @@ for (const file of commandFiles) {
   client.commands.set(command.name, command);
 }
 
-// Env variable
-const dotenv = require('dotenv');
-dotenv.config();
-const prefix = process.env.PREFIX;
-
 client.once('ready', () => {
-  console.log('Ready & up and running! 🚀🚀🚀');
+  logger.log('info', 'Ready & up and running! 🚀🚀🚀');
 });
 
 client.on('message', (message) => {
@@ -96,9 +97,13 @@ client.on('message', (message) => {
   try {
     command.execute(message, args);
   } catch (error) {
-    console.error(error);
+    logger.log('error', error);
     message.reply('There was an error trying to execute that command, please try again later. Sorry for the inconvenience!');
   }
 });
+
+client.on('warn', m => logger.log('warn', m));
+client.on('error', m => logger.log('error', m));
+process.on('uncaughtException', error => logger.log('error', `uncaughtException: ${error}`));
 
 client.login(process.env.TOKEN);
