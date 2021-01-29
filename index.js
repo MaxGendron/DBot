@@ -18,12 +18,14 @@ dotenv.config();
 const prefix = process.env.PREFIX;
 
 client.once('ready', () => {
-  console.log('Ready!');
+  console.log('Ready & up and running! 🚀🚀🚀');
 });
 
 client.on('message', (message) => {
-  // If the given message doesn't start with our prefix or if its a bot that posted the message, return
-  if (!message.content.startsWith(prefix) || message.author.bot) return;
+  // If the given message doesn't match the regex or if its a bot that posted the message, return
+  // The regex match the prefix, a space and everything else after (exemple: dbot help)
+  const regExp = new RegExp(`^${prefix} .*$`);
+  if (!regExp.test(message.content) || message.author.bot) return;
 
   const args = message.content.slice(prefix.length).trim().split(/ +/);
   const commandName = args.shift().toLowerCase();
@@ -34,11 +36,14 @@ client.on('message', (message) => {
   // If no command match the asked command, return
   if (!command) return;
 
+  // #region Verify guildOnly
   // If the command is flagged as guildOnly and the message came from a dm, return an error
   if (command.guildOnly && message.channel.type === 'dm') {
     return message.reply("I can't execute that command inside DMs!");
   }
+  // #endregion
 
+  // #region Verify permissions
   // If the command has permissions for it, verify the requester has it
   if (command.permissions) {
     const authorPerms = message.channel.permissionsFor(message.author);
@@ -46,7 +51,9 @@ client.on('message', (message) => {
       return message.reply('You can not do this!');
     }
   }
+  // #endregion
 
+  // #region Verify args
   // If command need args but no args was passed, return an error
   if (command.args && !args.length) {
     let reply = `You didn't provide any arguments, ${message.author}!`;
@@ -57,7 +64,9 @@ client.on('message', (message) => {
 
     return message.channel.send(reply);
   }
+  // #endregion
 
+  // #region Verify cooldowns
   // If the cooldowns collection don't have the command, add it
   if (!cooldowns.has(command.name)) {
     cooldowns.set(command.name, new Discord.Collection());
@@ -82,12 +91,13 @@ client.on('message', (message) => {
   // If the timestamps didn't have the author Id, add it and set a auto-delete with a cooldown
   timestamps.set(message.author.id, now);
   setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
+  // #endregion
 
   try {
     command.execute(message, args);
   } catch (error) {
     console.error(error);
-    message.reply('There was an error trying to execute that command!');
+    message.reply('There was an error trying to execute that command, please try again later. Sorry for the inconvenience!');
   }
 });
 
