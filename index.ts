@@ -1,14 +1,32 @@
 import { CustomLogger } from './src/utils/custom-logger';
 import path = require('path');
-import { CommandoClient } from "discord.js-commando";
+import { CommandoClient } from 'discord.js-commando';
 import dotenv = require('dotenv');
+import i18next, { InitOptions } from 'i18next';
+import Backend from 'i18next-fs-backend';
 
 // Env config
 dotenv.config();
 
-//Logger
+// Logger
 const logger = new CustomLogger();
 
+// i18n
+const langs = ['en', 'fr'];
+const i18nextOptions: InitOptions = {
+  lng: 'en',
+  fallbackLng: 'en',
+  supportedLngs: langs,
+  preload: langs,
+  ns: ['global'],
+  defaultNS: 'global',
+  backend: {
+    loadPath: 'locales/{{lng}}/{{ns}}.json',
+  },
+};
+i18next.use(Backend).init(i18nextOptions);
+
+// Client
 const client = new CommandoClient({
   commandPrefix: process.env.PREFIX,
   owner: process.env.OWNER_ID,
@@ -26,7 +44,7 @@ client.registry
   .registerCommandsIn({
     dirname: path.join(__dirname, 'src/commands'),
     filter: /.*ts/,
-    recursive   : true
+    recursive: true,
   });
 
 client.once('ready', () => {

@@ -7,14 +7,14 @@ export class CustomLogger {
   });
 
   public logInfo(message: string): void {
-    this.logger.log('info', message)
+    this.logger.log('info', message);
   }
 
   public logWarn(message: string): void {
-    this.logger.log('warn', message)
+    this.logger.log('warn', message);
   }
 
   public logError(message: Error | string): void {
-    this.logger.log('error', message)
+    this.logger.log('error', message);
   }
 }
