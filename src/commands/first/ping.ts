@@ -1,7 +1,7 @@
-const { Command } = require('discord.js-commando');
+import { CommandoClient, Command, CommandoMessage } from "discord.js-commando";
 
 module.exports = class PingCommand extends Command {
-  constructor(client) {
+  constructor(client: CommandoClient) {
     super(client, {
       name: 'ping',
       group: 'first',
@@ -15,7 +15,7 @@ module.exports = class PingCommand extends Command {
     });
   }
 
-  run(message) {
+  run(message: CommandoMessage) {
     return message.say('Pong!');
   }
 };
