@@ -30,8 +30,8 @@ const client = new DbotClient({
 });
 
 // MongoDb
-(async (): Promise<void> => { 
-  await client.initializeMongoClient();
+(async (): Promise<void> => {
+  await client.initialize();
   client.setProvider(new MongoDBProvider(client.mongoClient, process.env.MONGO_DBNAME || ''));
 })();
 
