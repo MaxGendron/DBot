@@ -6,5 +6,5 @@ export abstract class DbotCommand extends Command {
 
   constructor(client: DbotClient, info: CommandInfo) {
     super(client, info);
-	}
+  }
 }
