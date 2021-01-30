@@ -1,15 +1,12 @@
-import { CustomLogger } from './src/utils/custom-logger';
+import { DbotClient } from './src/dbot-client';
 import path = require('path');
-import { CommandoClient } from 'discord.js-commando';
 import dotenv = require('dotenv');
 import i18next, { InitOptions } from 'i18next';
 import Backend from 'i18next-fs-backend';
+import { MongoDBProvider } from 'commando-provider-mongo';
 
 // Env config
 dotenv.config();
-
-// Logger
-const logger = new CustomLogger();
 
 // i18n
 const langs = ['en', 'fr'];
@@ -27,10 +24,16 @@ const i18nextOptions: InitOptions = {
 i18next.use(Backend).init(i18nextOptions);
 
 // Client
-const client = new CommandoClient({
+const client = new DbotClient({
   commandPrefix: process.env.PREFIX,
   owner: process.env.OWNER_ID,
 });
+
+// MongoDb
+(async (): Promise<void> => { 
+  await client.initializeMongoClient();
+  client.setProvider(new MongoDBProvider(client.mongoClient, process.env.MONGO_DBNAME || ''));
+})();
 
 client.registry
   .registerDefaultTypes()
@@ -48,11 +51,12 @@ client.registry
   });
 
 client.once('ready', () => {
-  logger.logInfo(`Logged in as ${client.user?.tag}! (${client.user?.id})`);
-  logger.logInfo('Ready & up and running! 🚀🚀🚀');
+  client.logger.logInfo(`Logged in as ${client.user?.tag}! (${client.user?.id})`);
+  client.logger.logInfo('Ready & up and running! 🚀🚀🚀');
 });
 
-client.on('warn', (m) => logger.logWarn(m));
-client.on('error', (m) => logger.logError(m));
+//client.on('debug', (m) => client.logger.logInfo(m));
+client.on('warn', (m) => client.logger.logWarn(m));
+client.on('error', (m) => client.logger.logError(m));
 
 client.login(process.env.TOKEN);
