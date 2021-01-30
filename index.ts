@@ -18,7 +18,7 @@ const i18nextOptions: InitOptions = {
   ns: ['global'],
   defaultNS: 'global',
   backend: {
-    loadPath: 'locales/{{lng}}/{{ns}}.json',
+    loadPath: 'src/locales/{{lng}}/{{ns}}.json',
   },
 };
 i18next.use(Backend).init(i18nextOptions);

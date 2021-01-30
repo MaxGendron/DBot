@@ -7,7 +7,7 @@
     "start": "node dist/index.js",
     "build": "tsc --build",
     "start:dev": "nodemon",
-    "format": "prettier --write \"src/**/*.ts\" \"index.ts\" \"locales/**/*.json\""
+    "format": "prettier --write \"src/**/*.ts\" \"index.ts\" \"src/**/*.json\""
   },
   "repository": {
     "type": "git",
