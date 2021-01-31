@@ -20,10 +20,10 @@ module.exports = class PingCommand extends DbotCommand {
 
   async run(message: CommandoMessage): Promise<CommandoMessage> {
     //await this.client.provider.set(message.guild, 'ping', 'Pong');
-    const item = await this.client.itemService.getItemById('60159ffeb9f3633328cd386a');
-    console.log(item);
-    const items = await this.client.itemService.getItems();
-    console.log(items.array());
+    //const item = await this.client.itemService.getItemById('60159ffeb9f3633328cd386a');
+    //console.log(item);
+    //const items = await this.client.itemService.getItems();
+    //console.log(items.array());
 
     const response = i18next.t('ping', { commandName: message.command?.name, response: 'Pong!' });
     return message.say(response);
