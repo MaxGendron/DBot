@@ -29,8 +29,8 @@ export class ItemService {
     this.items.clear();
     // Get the items from mongo & map it to the collection
     const itemsCursor: mongodb.Cursor<Item> = await this.itemCollection.find({});
-      await itemsCursor.forEach((item) => {
-        this.items.set(item._id, item);
+    await itemsCursor.forEach((item) => {
+      this.items.set(item._id, item);
     });
   }
 }
