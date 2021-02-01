@@ -7,7 +7,7 @@ export class ItemService {
   private itemCollection: MongoDBCollection;
   // Items collection to not go to mongo each time (items doesn't change)
   // TODO: put this in redis
-  public items: Collection<string, Item>;
+  private items: Collection<string, Item>;
 
   constructor(db: Db) {
     this.itemCollection = db.collection('items');
