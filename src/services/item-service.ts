@@ -12,7 +12,6 @@ export class ItemService {
   constructor(db: Db) {
     this.itemCollection = db.collection('items');
     this.items = new Collection<string, Item>();
-    //this.itemCollection.
   }
 
   async getItemById(itemId: string): Promise<Item | undefined> {
