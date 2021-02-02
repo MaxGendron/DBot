@@ -1,3 +1,5 @@
 {
-  "ping": "You requested the command ``{{commandName}}``, here's the response: **{{response}}**"
+  "error": {
+    "noItemFoundForName": "No item found for the name: {{itemName}}"
+  }
 }
