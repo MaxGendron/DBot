@@ -37,6 +37,7 @@ module.exports = class GetItemCommand extends DbotCommand {
       const replyMessage = i18next.t('error.noItemFoundForName', { itemName: itemName });
       return message.reply(replyMessage);
     }
+    // TODO: upload icon to cdn and use in thumbnail instead of in the title
     const embed = new MessageEmbed()
       .setColor(Const.embedColor)
       .setTitle(`${this.client.emojis.resolve(item.iconId)?.toString()} ${item.name}`)
@@ -44,8 +45,7 @@ module.exports = class GetItemCommand extends DbotCommand {
         { name: i18next.t('items:type'), value: item.type },
         { name: i18next.t('items:rarity'), value: item.rarity },
         { name: i18next.t('items:stats'), value: Util.getFormattedStats(item.stats) },
-      )
-      .setTimestamp();
+      );
     return message.embed(embed);
   }
 };
