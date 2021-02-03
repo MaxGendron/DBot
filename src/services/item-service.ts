@@ -63,6 +63,10 @@ export class ItemService {
     this.items.delete(itemId);
   }
 
+  async deleteItems(): Promise<void> {
+    await this.itemCollection.drop();
+  }
+
   async getItems(): Promise<Collection<string, Item>> {
     return this.items;
   }

@@ -13,6 +13,10 @@
     "args": {
       "id": "Id of the item"
     },
-    "returnMessage": "Deleted the item with the id: {{id}}"
+    "returnMessage": "The item with the id: {{id}} has been deleted"
+  },
+  "deleteItems": {
+    "description": "Delete all the items.",
+    "returnMessage": "All the items have been deleted"
   }
 }
