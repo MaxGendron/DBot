@@ -23,8 +23,7 @@ module.exports = class GetItemCommand extends DbotCommand {
           key: 'itemName',
           prompt: i18next.t('items:getItem.args.itemName'),
           type: 'string',
-          // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-          validate: itemName => itemName.length <= 200,
+          max: 200,
         },
       ],
     });
