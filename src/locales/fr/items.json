@@ -1,0 +1,29 @@
+{
+  "type": "Type",
+  "rarity": "Rareté",
+  "stats": "Statistiques",
+  "getItem": {
+    "description": "Retourne un item correspondant au nom donné.",
+    "args": {
+      "itemName": "Quel item voulez-vous rechercher? (Entrez le nom de l'item)"
+    }
+  },
+  "deleteItem": {
+    "description": "Supprime un item correspondant a l'id donné.",
+    "args": {
+      "id": "Entrez l'id de l'item"
+    },
+    "returnMessage": "L'item avec l'id: {{id}} a été supprimé"
+  },
+  "deleteItems": {
+    "description": "Supprime tous les items.",
+    "returnMessage": "Tous les items ont été supprimés"
+  },
+  "createOrUpdateItem": {
+    "description": "Créez ou mettez à jour un nouvel élément à partir du JSON fourni (et identifiant si besoin).",
+    "args": {
+      "json": "Veuillez fournir un JSON pour créer l'item (doit être une chaîne complète sans espace)"
+    },
+    "returnMessage": "L'item a été créé/mis à jour:"
+  }
+}
