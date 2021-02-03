@@ -9,7 +9,7 @@
     }
   },
   "deleteItem": {
-    "description": "Retourne un item correspondant a l'id donné.",
+    "description": "Supprime un item correspondant a l'id donné.",
     "args": {
       "id": "Id de l'item"
     },
