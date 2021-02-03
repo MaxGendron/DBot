@@ -2,7 +2,7 @@
   "error": {
     "noItemFoundForName": "No item found for the name: {{itemName}}.",
     "noDocumentFound": "No document was found for the given param.",
-    "unexpectedError": "An error occurred while running the command. Please try again later and if the problem persist, contact Torbraw#7689."
+    "unexpected": "An error occurred while running the command. Please try again later and if the problem persist, contact Torbraw#7689."
   },
   "reply": {
     "youSure": "Are you sure? (Yes/No)",

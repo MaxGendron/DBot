@@ -2,7 +2,7 @@
   "error": {
     "noItemFoundForName": "Aucun item trouvé pour le nom: {{itemName}}.",
     "noDocumentFound": "Aucun document n'a été trouvé pour le paramètre donné.",
-    "unexpectedError": "Une erreur s'est produite lors de l'exécution de la commande. Veuillez réessayer plus tard et si le problème persiste, contactez Torbraw#7689."
+    "unexpected": "Une erreur s'est produite lors de l'exécution de la commande. Veuillez réessayer plus tard et si le problème persiste, contactez Torbraw#7689."
   },
   "reply": {
     "youSure": "Êtes vous sûr? (Oui/Non)",

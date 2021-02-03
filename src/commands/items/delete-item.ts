@@ -34,7 +34,7 @@ module.exports = class DeleteItemCommand extends DbotCommand {
         const replyMessage = (i18next.t('error.noDocumentFound'));
         return message.reply(replyMessage);
       }
-      const replyMessage = (i18next.t('error.unexpectedError'));
+      const replyMessage = (i18next.t('error.unexpected'));
       return message.reply(replyMessage);
     }
     return message.say(i18next.t('items:deleteItem.returnMessage', { id: id }));
