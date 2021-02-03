@@ -1,6 +1,7 @@
 import { Collection } from 'discord.js';
 import { Collection as MongoDBCollection, Cursor, Db, ObjectId } from 'mongodb';
 import { Item } from '../models/items/item';
+import { ItemStats } from '../models/items/item-stats';
 
 export class ItemService {
   // MongoDB collection for the items
@@ -80,5 +81,13 @@ export class ItemService {
     await itemsCursor.forEach((item) => {
       this.items.set(item._id.toString(), item);
     });
+  }
+
+  getFormattedStats(itemStats: ItemStats[]): string {
+    const stats: string[] = [];
+    itemStats.forEach(stat => {
+      stats.push(`${stat.type}: ${stat.value}`);
+    });
+    return stats.join('\n');
   }
 }

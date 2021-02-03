@@ -1,4 +1,3 @@
-import { Util } from './../../utils/util';
 import { Const } from '../../utils/const';
 import { DbotClient } from '../../dbot-client';
 import { CommandoMessage } from 'discord.js-commando';
@@ -43,7 +42,7 @@ module.exports = class GetItemCommand extends DbotCommand {
       .addFields(
         { name: i18next.t('items:type'), value: item.type },
         { name: i18next.t('items:rarity'), value: item.rarity },
-        { name: i18next.t('items:stats'), value: Util.getFormattedStats(item.stats) },
+        { name: i18next.t('items:stats'), value: this.client.itemService.getFormattedStats(item.stats) },
       );
     //Add id field if author is owner
     if (this.client.isOwner(message.author)) {
