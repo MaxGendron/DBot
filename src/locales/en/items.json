@@ -25,5 +25,9 @@
       "json": "Please provide a JSON for creating the item (need to be a complete string without space)"
     },
     "returnMessage": "The item has been created/updated:"
+  },
+  "reloadItems": {
+    "description": "Reload the items in the collection.",
+    "returnMessage": "The items have been reloaded"
   }
 }

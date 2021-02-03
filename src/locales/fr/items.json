@@ -25,5 +25,9 @@
       "json": "Veuillez fournir un JSON pour créer l'item (doit être une chaîne complète sans espace)"
     },
     "returnMessage": "L'item a été créé/mis à jour:"
+  },
+  "reloadItems": {
+    "description": "Recharge les items de la collection.",
+    "returnMessage": "Les items ont été rechargés"
   }
 }
