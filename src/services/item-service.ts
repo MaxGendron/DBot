@@ -36,7 +36,6 @@ export class ItemService {
     // Insert or update into mongo
     const result = await this.itemCollection.replaceOne(filter, item, options);
     // No document updated, return error
-    console.log(result);
     if (result.modifiedCount === 0 && result.upsertedCount === 0) {
       throw new Error('Error updating/creating');
     }
