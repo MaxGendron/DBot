@@ -18,5 +18,8 @@
   "deleteItems": {
     "description": "Supprime tous les items.",
     "returnMessage": "Tous les items ont été supprimés"
+  },
+  "createItem": {
+    "returnMessage": "L'item a été créé:"
   }
 }

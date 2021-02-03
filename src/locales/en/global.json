@@ -1,8 +1,10 @@
 {
   "error": {
     "noItemFoundForName": "No item found for the name: {{itemName}}.",
+    "itemWithSameName": "An item with the same name already exist",
     "noDocumentFound": "No document was found for the given param.",
-    "unexpected": "An error occurred while running the command. Please try again later and if the problem persist, contact Torbraw#7689."
+    "unexpected": "An error occurred while running the command. Please try again later and if the problem persist, contact Torbraw#7689.",
+    "deserialize": "An error occurred while deserializing the object, please validate your input."
   },
   "reply": {
     "youSure": "Are you sure? (Yes/No)",

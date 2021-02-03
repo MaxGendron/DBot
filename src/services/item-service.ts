@@ -1,7 +1,10 @@
-import { Collection } from 'discord.js';
+import { DbotClient } from './../dbot-client';
+import { Collection, MessageEmbed, User } from 'discord.js';
 import { Collection as MongoDBCollection, Cursor, Db, ObjectId } from 'mongodb';
 import { Item } from '../models/items/item';
 import { ItemStats } from '../models/items/item-stats';
+import { Const } from '../utils/const';
+import i18next from 'i18next';
 
 export class ItemService {
   // MongoDB collection for the items
@@ -33,8 +36,9 @@ export class ItemService {
     // Insert or update into mongo
     const result = await this.itemCollection.replaceOne(filter, item, options);
     // No document updated, return error
-    if (result.matchedCount === 0) {
-      throw new Error('Error updating');
+    console.log(result);
+    if (result.modifiedCount === 0 && result.upsertedCount === 0) {
+      throw new Error('Error updating/creating');
     }
 
     const updatedItem: Item = result.ops[0];
@@ -89,5 +93,23 @@ export class ItemService {
       stats.push(`${stat.type}: ${stat.value}`);
     });
     return stats.join('\n');
+  }
+
+  // Create an MessageEmbed from a item
+  createMessageEmbed(item: Item, client: DbotClient, author: User): MessageEmbed {
+    // TODO: upload icon to cdn and use in thumbnail instead of in the title
+    const embed = new MessageEmbed()
+      .setColor(Const.embedColor)
+      .setTitle(`${client.emojis.resolve(item.iconId)?.toString()} ${item.name}`)
+      .addFields(
+        { name: i18next.t('items:type'), value: item.type },
+        { name: i18next.t('items:rarity'), value: item.rarity },
+        { name: i18next.t('items:stats'), value: client.itemService.getFormattedStats(item.stats) },
+      );
+    //Add id field if author is owner
+    if (client.isOwner(author)) {
+      embed.addField('id', item._id);
+    }
+    return embed;
   }
 }

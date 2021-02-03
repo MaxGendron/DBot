@@ -1,9 +1,8 @@
-import { Const } from '../../utils/const';
 import { DbotClient } from '../../dbot-client';
 import { CommandoMessage } from 'discord.js-commando';
 import { DbotCommand } from '../../dbot-command';
 import i18next from 'i18next';
-import { Message, MessageEmbed } from 'discord.js';
+import { Message } from 'discord.js';
 
 module.exports = class GetItemCommand extends DbotCommand {
   constructor(client: DbotClient) {
@@ -36,18 +35,7 @@ module.exports = class GetItemCommand extends DbotCommand {
       return message.reply(replyMessage);
     }
     // TODO: upload icon to cdn and use in thumbnail instead of in the title
-    const embed = new MessageEmbed()
-      .setColor(Const.embedColor)
-      .setTitle(`${this.client.emojis.resolve(item.iconId)?.toString()} ${item.name}`)
-      .addFields(
-        { name: i18next.t('items:type'), value: item.type },
-        { name: i18next.t('items:rarity'), value: item.rarity },
-        { name: i18next.t('items:stats'), value: this.client.itemService.getFormattedStats(item.stats) },
-      );
-    //Add id field if author is owner
-    if (this.client.isOwner(message.author)) {
-      embed.addField('id', item._id);
-    }
+    const embed = this.client.itemService.createMessageEmbed(item, this.client, message.author);
     return message.embed(embed);
   }
 };

@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import { DbotClient } from './src/dbot-client';
 import path = require('path');
 import dotenv = require('dotenv');
