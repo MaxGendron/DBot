@@ -1,0 +1,13 @@
+{
+  "error": {
+    "noItemFoundForName": "Aucun item trouvé pour le nom: {{itemName}}.",
+    "itemWithSameName": "Un item avec même nom existe déjà",
+    "noDocumentFound": "Aucun document n'a été trouvé pour le paramètre donné.",
+    "unexpected": "Une erreur s'est produite lors de l'exécution de la commande. Veuillez réessayer plus tard et si le problème persiste, contactez Torbraw#7689.",
+    "deserialize": "Une erreur s'est produite lors de la désérialisation de l'objet, veuillez valider votre saisie."
+  },
+  "reply": {
+    "youSure": "Êtes vous sûr? (Oui/Non)",
+    "cancelledCommand": "Commande annulée."
+  }
+}

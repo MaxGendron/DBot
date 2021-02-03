@@ -1,3 +1,0 @@
-{
-  "ping": "Vous avez demandé la commande ``{{commandName}}``, voici la réponse: **{{response}}**"
-}

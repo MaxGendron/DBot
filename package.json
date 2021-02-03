@@ -7,7 +7,7 @@
     "start": "node dist/index.js",
     "build": "tsc --build",
     "start:dev": "nodemon",
-    "format": "prettier --write \"src/**/*.ts\" \"index.ts\" \"locales/**/*.json\""
+    "format": "prettier --write \"src/**/*.ts\" \"index.ts\" \"src/**/*.json\""
   },
   "repository": {
     "type": "git",
@@ -27,6 +27,8 @@
     "i18next": "^19.8.5",
     "i18next-fs-backend": "^1.0.8",
     "mongodb": "^3.6.3",
+    "reflect-metadata": "^0.1.13",
+    "typedjson": "^1.6.0",
     "winston": "^3.3.3"
   },
   "devDependencies": {
