@@ -7,5 +7,12 @@
     "args": {
       "itemName": "Quel item voulez-vous rechercher? (Entrez le nom de l'item)"
     }
+  },
+  "deleteItem": {
+    "description": "Retourne un item correspondant a l'id donné.",
+    "args": {
+      "id": "Id de l'item"
+    },
+    "returnMessage": "Item supprimé avec l'identifiant: {{id}}"
   }
 }

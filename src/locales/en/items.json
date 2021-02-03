@@ -7,5 +7,12 @@
     "args": {
       "itemName": "Which item do you wanna look for? (Enter the name of the item)"
     }
+  },
+  "deleteItem": {
+    "description": "Delete the item matching the given id",
+    "args": {
+      "id": "Id of the item"
+    },
+    "returnMessage": "Deleted the item with the id: {{id}}"
   }
 }
