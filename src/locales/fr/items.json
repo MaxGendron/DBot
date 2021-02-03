@@ -19,11 +19,11 @@
     "description": "Supprime tous les items.",
     "returnMessage": "Tous les items ont été supprimés"
   },
-  "createItem": {
-    "description": "Créer un nouvel item à partir du JSON fourni",
+  "createOrUpdateItem": {
+    "description": "Créez ou mettez à jour un nouvel élément à partir du JSON fourni (et identifiant si besoin).",
     "args": {
-      "json": "Veuillez fournir un JSON pour créer l'item"
+      "json": "Veuillez fournir un JSON pour créer l'item (doit être une chaîne complète sans espace)"
     },
-    "returnMessage": "L'item a été créé:"
+    "returnMessage": "L'item a été créé/mis à jour:"
   }
 }

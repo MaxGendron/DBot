@@ -1,6 +1,6 @@
 import { DbotClient } from './../dbot-client';
 import { Collection, MessageEmbed, User } from 'discord.js';
-import { Collection as MongoDBCollection, Cursor, Db, ObjectId } from 'mongodb';
+import { Collection as MongoDBCollection, Cursor, Db, ObjectId, ReplaceWriteOpResult } from 'mongodb';
 import { Item } from '../models/items/item';
 import { ItemStats } from '../models/items/item-stats';
 import { Const } from '../utils/const';
@@ -34,7 +34,13 @@ export class ItemService {
       upsert: true,
     };
     // Insert or update into mongo
-    const result = await this.itemCollection.replaceOne(filter, item, options);
+    let result: ReplaceWriteOpResult;
+    try {
+      // Doing a try/catch here, because we have a unique index on name
+      result = await this.itemCollection.replaceOne(filter, item, options);
+    } catch (error) {
+      throw new Error(error.message);
+    }
     // No document updated, return error
     if (result.modifiedCount === 0 && result.upsertedCount === 0) {
       throw new Error('Error updating/creating');

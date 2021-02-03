@@ -19,11 +19,11 @@
     "description": "Delete all the items.",
     "returnMessage": "All the items have been deleted"
   },
-  "createItem": {
-    "description": "Create a new item from the provided JSON.",
+  "createOrUpdateItem": {
+    "description": "Create or update a new item from the provided JSON (and id if applicable).",
     "args": {
-      "json": "Please provide a JSON for creating the item"
+      "json": "Please provide a JSON for creating the item (need to be a complete string without space)"
     },
-    "returnMessage": "The item has been created:"
+    "returnMessage": "The item has been created/updated:"
   }
 }
