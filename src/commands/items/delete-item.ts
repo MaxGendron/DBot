@@ -19,7 +19,7 @@ module.exports = class DeleteItemCommand extends DbotCommand {
           type: 'string',
           // MongoId length is 24
           // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-          validate: id => id.length === 24,
+          validate: (id) => id.length === 24,
         },
       ],
     });

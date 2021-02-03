@@ -8,7 +8,7 @@ export class Item {
   // Mongo id
   @jsonMember
   _id!: string;
-  
+
   // Name of the item
   @jsonMember
   name: string;

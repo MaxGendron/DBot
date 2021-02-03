@@ -6,7 +6,7 @@ export class ItemStats {
   // Type of the stats
   @jsonMember
   type: ItemStatsTypeEnum;
-  
+
   // Value of the stats
   @jsonMember
   value: number;

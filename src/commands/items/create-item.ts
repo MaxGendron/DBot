@@ -30,16 +30,20 @@ module.exports = class CreateItemCommand extends DbotCommand {
     //Desirialize the json
     let item: Item | undefined;
     try {
-      const serializer = new TypedJSON(Item, { errorHandler: (e): void => { throw e; } });
+      const serializer = new TypedJSON(Item, {
+        errorHandler: (e): void => {
+          throw e;
+        },
+      });
       item = serializer.parse(itemJson);
-    } catch(error) {
+    } catch (error) {
       const replyMessage = i18next.t('error.deserialize');
       return message.reply(replyMessage);
     }
 
     if (item !== undefined) {
       // Validate that the name doesn't already exist
-      if (await this.client.itemService.getItemByName(item.name) !== undefined) {
+      if ((await this.client.itemService.getItemByName(item.name)) !== undefined) {
         const replyMessage = i18next.t('error.itemWithSameName');
         return message.reply(replyMessage);
       }
