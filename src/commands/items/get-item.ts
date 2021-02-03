@@ -46,6 +46,10 @@ module.exports = class GetItemCommand extends DbotCommand {
         { name: i18next.t('items:rarity'), value: item.rarity },
         { name: i18next.t('items:stats'), value: Util.getFormattedStats(item.stats) },
       );
+    //Add id field if author is owner
+    if (this.client.isOwner(message.author)) {
+      embed.addField('id', item._id);
+    }
     return message.embed(embed);
   }
 };
