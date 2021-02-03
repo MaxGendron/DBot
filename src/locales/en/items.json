@@ -9,7 +9,7 @@
     }
   },
   "deleteItem": {
-    "description": "Delete the item matching the given id",
+    "description": "Delete the item matching the given id.",
     "args": {
       "id": "Id of the item"
     },
