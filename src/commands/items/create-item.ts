@@ -13,12 +13,12 @@ module.exports = class CreateItemCommand extends DbotCommand {
       aliases: ['add-item', 'new-item'],
       group: 'items',
       memberName: 'create-item',
-      description: i18next.t('items:getItem.description'),
+      description: i18next.t('items:createItem.description'),
       ownerOnly: true,
       args: [
         {
           key: 'itemJson',
-          prompt: i18next.t('items:getItem.args.itemName'),
+          prompt: i18next.t('items:createItem.args.json'),
           type: 'string',
         },
       ],

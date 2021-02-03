@@ -20,6 +20,10 @@
     "returnMessage": "Tous les items ont été supprimés"
   },
   "createItem": {
+    "description": "Créer un nouvel item à partir du JSON fourni",
+    "args": {
+      "json": "Veuillez fournir un JSON pour créer l'item"
+    },
     "returnMessage": "L'item a été créé:"
   }
 }
