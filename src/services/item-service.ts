@@ -31,9 +31,9 @@ export class ItemService {
     };
     // Insert or update into mongo
     const result = await this.itemCollection.replaceOne(filter, item, options);
-    // No document matching, return error
+    // No document updated, return error
     if (result.matchedCount === 0) {
-      throw new Error('No document matching');
+      throw new Error('Error updating');
     }
 
     const updatedItem: Item = result.ops[0];
