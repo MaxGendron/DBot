@@ -11,7 +11,7 @@
   "deleteItem": {
     "description": "Delete the item matching the given id.",
     "args": {
-      "id": "Id of the item"
+      "id": "Enter the id of the item"
     },
     "returnMessage": "The item with the id: {{id}} has been deleted"
   },
