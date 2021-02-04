@@ -1,3 +1,4 @@
+import { ObjectId } from 'mongodb';
 import { jsonArrayMember, jsonMember, jsonObject } from 'typedjson';
 import { ItemRarityEnum } from './enum/item-rarity.enum';
 import { ItemTypeEnum } from './enum/item-type.enum';
@@ -7,7 +8,7 @@ import { ItemStats } from './item-stats';
 export class Item {
   // Mongo id
   @jsonMember
-  _id!: string;
+  _id!: ObjectId;
 
   // Name of the item
   @jsonMember

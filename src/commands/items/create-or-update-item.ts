@@ -1,4 +1,4 @@
-import { Item } from './../../models/items/item';
+import { Item } from '../../models/items/item';
 import { DbotClient } from '../../dbot-client';
 import { CommandoMessage } from 'discord.js-commando';
 import { DbotCommand } from '../../dbot-command';
@@ -7,7 +7,7 @@ import { Message } from 'discord.js';
 import { TypedJSON } from 'typedjson';
 const defaultId = 'DEFAULT_ID';
 
-module.exports = class CreateItemCommand extends DbotCommand {
+module.exports = class CreateOrUpdateItemCommand extends DbotCommand {
   constructor(client: DbotClient) {
     super(client, {
       name: 'create-update-item',
