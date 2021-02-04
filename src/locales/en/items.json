@@ -2,6 +2,7 @@
   "type": "Type",
   "rarity": "Rarity",
   "stats": "Statistics",
+  "noItem": "No item",
   "getItem": {
     "description": "Return a item matching the given name.",
     "args": {
