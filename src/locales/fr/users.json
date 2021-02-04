@@ -1,0 +1,7 @@
+{
+  "profile": {
+    "description": "Renvoie le profil de l'utilisateur, sans l'inventaire.",
+    "authorName": "Profile de {{username}}",
+    "equipped": "Items équipés"
+  }
+}

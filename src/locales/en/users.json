@@ -1,0 +1,7 @@
+{
+  "profile": {
+    "description": "Return the profile of the user, without the inventory.",
+    "authorName": "{{username}}'s profile",
+    "equipped": "Equipped Items"
+  }
+}
