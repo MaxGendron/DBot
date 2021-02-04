@@ -1,4 +1,4 @@
-import { ItemService } from './services/item-service';
+import { ItemService } from './services/item.service';
 import { CustomLogger } from './utils/custom-logger';
 import { CommandoClient, CommandoClientOptions } from 'discord.js-commando';
 import { Db, MongoClient } from 'mongodb';

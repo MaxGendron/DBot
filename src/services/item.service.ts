@@ -1,4 +1,4 @@
-import { DbotClient } from './../dbot-client';
+import { DbotClient } from '../dbot-client';
 import { Collection, MessageEmbed, User } from 'discord.js';
 import { Collection as MongoDBCollection, Cursor, Db, ObjectId, ReplaceWriteOpResult } from 'mongodb';
 import { Item } from '../models/items/item';
