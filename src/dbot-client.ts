@@ -1,3 +1,4 @@
+import { UserService } from './services/user.service';
 import { ItemService } from './services/item.service';
 import { CustomLogger } from './utils/custom-logger';
 import { CommandoClient, CommandoClientOptions } from 'discord.js-commando';
@@ -15,6 +16,7 @@ export class DbotClient extends CommandoClient {
 
   // Services
   public itemService!: ItemService;
+  public userService!: UserService;
 
   constructor(options: CommandoClientOptions) {
     super(options);
@@ -32,6 +34,7 @@ export class DbotClient extends CommandoClient {
 
     // Services
     this.itemService = new ItemService(db);
+    this.userService = new UserService(db);
     // Populate items
     await this.itemService.initializeItems();
   }
