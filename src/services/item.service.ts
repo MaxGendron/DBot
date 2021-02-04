@@ -27,7 +27,8 @@ export class ItemService {
   }
 
   async createOrUpdateItem(item: Item, itemId?: string): Promise<Item> {
-    const filter: FilterQuery<Item> = { _id: new ObjectId(itemId) };
+    let filter: FilterQuery<Item> = {};
+    if (itemId) filter = { _id: new ObjectId(itemId) };
     const options: ReplaceOneOptions = { upsert: true };
     // Insert or update into mongo
     let result: ReplaceWriteOpResult;
