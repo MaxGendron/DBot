@@ -18,6 +18,7 @@ module.exports = class InventoryCommand extends DbotCommand {
         usages: 1,
         duration: 60,
       },
+      guildOnly: true,
     });
   }
 

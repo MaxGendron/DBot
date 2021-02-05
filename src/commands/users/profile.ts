@@ -20,6 +20,7 @@ module.exports = class ProfileCommand extends DbotCommand {
         usages: 1,
         duration: 60,
       },
+      guildOnly: true,
     });
   }
 
