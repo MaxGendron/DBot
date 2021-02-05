@@ -17,7 +17,7 @@ dotenv.config();
     fallbackLng: 'en',
     supportedLngs: langs,
     preload: langs,
-    ns: ['global', 'items'],
+    ns: ['global', 'items', 'users', 'enum'],
     defaultNS: 'global',
     backend: {
       loadPath: 'src/locales/{{lng}}/{{ns}}.json',
@@ -39,8 +39,8 @@ dotenv.config();
   client.registry
     .registerDefaultTypes()
     .registerGroups([
-      ['util-owner', 'Utility (Owner)'],
       ['items', 'Items'],
+      ['users', 'Users'],
     ])
     .registerDefaultGroups()
     .registerDefaultCommands({

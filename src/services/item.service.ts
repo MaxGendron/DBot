@@ -1,6 +1,14 @@
-import { DbotClient } from './../dbot-client';
+import { DbotClient } from '../dbot-client';
 import { Collection, MessageEmbed, User } from 'discord.js';
-import { Collection as MongoDBCollection, Cursor, Db, ObjectId, ReplaceWriteOpResult } from 'mongodb';
+import {
+  Collection as MongoDBCollection,
+  Cursor,
+  Db,
+  FilterQuery,
+  ObjectId,
+  ReplaceOneOptions,
+  ReplaceWriteOpResult,
+} from 'mongodb';
 import { Item } from '../models/items/item';
 import { ItemStats } from '../models/items/item-stats';
 import { Const } from '../utils/const';
@@ -27,12 +35,9 @@ export class ItemService {
   }
 
   async createOrUpdateItem(item: Item, itemId?: string): Promise<Item> {
-    const filter = {
-      _id: new ObjectId(itemId),
-    };
-    const options = {
-      upsert: true,
-    };
+    let filter: FilterQuery<Item> = {};
+    if (itemId) filter = { _id: new ObjectId(itemId) };
+    const options: ReplaceOneOptions = { upsert: true };
     // Insert or update into mongo
     let result: ReplaceWriteOpResult;
     try {
@@ -42,33 +47,25 @@ export class ItemService {
       throw new Error(error.message);
     }
     // No document updated, return error
-    if (result.modifiedCount === 0 && result.upsertedCount === 0) {
-      throw new Error('Error updating/creating');
-    }
+    if (result.modifiedCount === 0 && result.upsertedCount === 0) throw new Error('Error updating/creating');
 
     const updatedItem: Item = result.ops[0];
     // Set document id based on update or insert
-    if (result.modifiedCount === 1) {
-      updatedItem._id = itemId ?? '';
-    } else if (result.upsertedCount === 1 && result.upsertedId !== null) {
-      updatedItem._id = result.upsertedId._id.toHexString();
-    }
+    if (result.modifiedCount === 1) updatedItem._id = new ObjectId(itemId) ?? '';
+    else if (result.upsertedCount === 1 && result.upsertedId !== null) updatedItem._id = result.upsertedId._id;
+
     // Add/Update the item to the collection
-    this.items.set(item._id, updatedItem);
+    this.items.set(updatedItem._id.toHexString(), updatedItem);
 
     return updatedItem;
   }
 
   async deleteItem(itemId: string): Promise<void> {
-    const filter = {
-      _id: new ObjectId(itemId),
-    };
+    const filter = { _id: new ObjectId(itemId) };
     // Delete the item
     const result = await this.itemCollection.deleteOne(filter);
     // No document matching, return error
-    if (result.deletedCount === 0) {
-      throw new Error('No document matching');
-    }
+    if (result.deletedCount === 0) throw new Error('No document matching');
     // Delete the item from the collection
     this.items.delete(itemId);
   }
@@ -112,9 +109,7 @@ export class ItemService {
         { name: i18next.t('items:stats'), value: client.itemService.getFormattedStats(item.stats) },
       );
     //Add id field if author is owner
-    if (client.isOwner(author)) {
-      embed.addField('id', item._id);
-    }
+    if (client.isOwner(author)) embed.addField('id', item._id.toHexString());
     return embed;
   }
 }

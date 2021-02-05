@@ -1,0 +1,8 @@
+{
+  "itemStatsType": {
+    "attack": "Attack"
+  },
+  "itemTypeEnum": {
+    "Weapon": "Weapon"
+  }
+}
