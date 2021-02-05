@@ -34,7 +34,7 @@ module.exports = class ProfileCommand extends DbotCommand {
       .addFields(
         { name: i18next.t('items:stats'), value: this.getItemsStats(userItems) },
         { name: i18next.t('users:profile.equipped'), value: this.formatEquippedItems(userItems) },
-        );
+      );
     return message.embed(embed);
   }
 
@@ -43,10 +43,13 @@ module.exports = class ProfileCommand extends DbotCommand {
     // Iterate over itemType enum value
     Object.values(ItemTypeEnum).forEach((value) => {
       // Find the item which has that enum value
-      const item = items.find(i => i.type === value);
+      const item = items.find((i) => i.type === value);
       const valueLocalized = i18next.t(`enum:itemTypeEnum.${value}`);
       // TODO: Add emoji for each itemType
-      if (item) result += `${valueLocalized}: ${this.client.emojis.resolve(item.iconId)?.toString()} ${item.name}, ${item.rarity}\n`;
+      if (item)
+        result += `${valueLocalized}: ${this.client.emojis.resolve(item.iconId)?.toString()} ${item.name}, ${
+          item.rarity
+        }\n`;
       else result += `${valueLocalized}: ${i18next.t('items:noItem')}\n`;
     });
     return result;
@@ -55,8 +58,8 @@ module.exports = class ProfileCommand extends DbotCommand {
   private getItemsStats(items: Item[]): string {
     // Get the total of each ItemStatsTypeEnum
     let totalAttack = 0;
-    items.forEach(item => {
-      item.stats.forEach(stat => {
+    items.forEach((item) => {
+      item.stats.forEach((stat) => {
         if (stat.type === ItemStatsTypeEnum.Attack) {
           totalAttack += stat.value;
         }

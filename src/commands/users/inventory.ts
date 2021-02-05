@@ -36,7 +36,7 @@ module.exports = class InventoryCommand extends DbotCommand {
   private async addInventoryItems(embed: MessageEmbed, inventoryItems: Collection<string, Item[]>): Promise<void> {
     inventoryItems.each(async (items: Item[], key: string) => {
       let value = '';
-      await items.forEach(item => value += `${this.client.emojis.resolve(item.iconId)?.toString()} ${item.name}\n`);
+      await items.forEach((item) => (value += `${this.client.emojis.resolve(item.iconId)?.toString()} ${item.name}\n`));
       embed.addField(i18next.t(`enum:itemTypeEnum.${key}`), value);
     });
   }
