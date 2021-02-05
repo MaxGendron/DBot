@@ -3,5 +3,9 @@
     "description": "Renvoie le profil de l'utilisateur, sans l'inventaire.",
     "authorName": "Profile de {{username}}",
     "equipped": "Items équipés"
+  },
+  "inventory": {
+    "description": "Renvoie l'inventaire de l'utilisateur.",
+    "authorName": "Inventaire de {{username}}"
   }
 }
