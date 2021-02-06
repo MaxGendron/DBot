@@ -3,6 +3,7 @@
   "rarity": "Rarity",
   "stats": "Statistics",
   "noItem": "No item",
+  "noInventoryItems": "No items in the inventory!",
   "getItem": {
     "description": "Return a item matching the given name.",
     "args": {

@@ -10,7 +10,7 @@ module.exports = class InventoryCommand extends DbotCommand {
   constructor(client: DbotClient) {
     super(client, {
       name: 'inventory',
-      aliases: ['i'],
+      aliases: ['i', 'users'],
       group: 'users',
       memberName: 'inventory',
       description: i18next.t('users:inventory.description'),
@@ -28,17 +28,21 @@ module.exports = class InventoryCommand extends DbotCommand {
     const inventoryItems = await this.client.userService.getUserInventoryItemsGroupedByType(author.id);
     const embed = new MessageEmbed()
       .setColor(Const.embedColor)
-      .setAuthor(i18next.t('users:inventory.authorName', { username: author.username }), avatarURL)
-      .addFields();
+      .setAuthor(i18next.t('users:inventory.authorName', { username: author.username }), avatarURL);
     await this.addInventoryItems(embed, inventoryItems);
     return message.embed(embed);
   }
 
   private async addInventoryItems(embed: MessageEmbed, inventoryItems: Collection<string, Item[]>): Promise<void> {
-    inventoryItems.each(async (items: Item[], key: string) => {
-      let value = '';
-      await items.forEach((item) => (value += `${this.client.emojis.resolve(item.iconId)?.toString()} ${item.name}\n`));
-      embed.addField(i18next.t(`enum:itemTypeEnum.${key}`), value);
-    });
+    if (inventoryItems.size === 0) embed.setDescription(i18next.t('items:noInventoryItems'));
+    else {
+      inventoryItems.each(async (items: Item[], key: string) => {
+        let value = '';
+        await items.forEach(
+          (item) => (value += `${this.client.emojis.resolve(item.iconId)?.toString()} ${item.name}\n`),
+        );
+        embed.addField(i18next.t(`enum:itemTypeEnum.${key}`), value);
+      });
+    }
   }
 };

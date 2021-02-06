@@ -12,7 +12,7 @@ module.exports = class ProfileCommand extends DbotCommand {
   constructor(client: DbotClient) {
     super(client, {
       name: 'profile',
-      aliases: ['me', 'user'],
+      aliases: ['me', 'user', 'p'],
       group: 'users',
       memberName: 'profile',
       description: i18next.t('users:profile.description'),
