@@ -25,7 +25,8 @@ module.exports = class InventoryCommand extends DbotCommand {
   async run(message: CommandoMessage): Promise<Message> {
     const author = message.author;
     const avatarURL = author.displayAvatarURL();
-    const inventoryItems = await this.client.userService.getUserInventoryItemsGroupedByType(author.id);
+    const itemIds = (await this.client.userService.getUserById(author.id)).inventory;
+    const inventoryItems = await this.client.itemService.getItemsGroupedByType(itemIds);
     const embed = new MessageEmbed()
       .setColor(Const.embedColor)
       .setAuthor(i18next.t('users:inventory.authorName', { username: author.username }), avatarURL);

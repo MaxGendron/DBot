@@ -112,4 +112,24 @@ export class ItemService {
     if (client.isOwner(author)) embed.addField('id', item._id.toHexString());
     return embed;
   }
+
+  // Take a list of itemsIds and get their value from the items, then groupe it by type
+  async getItemsGroupedByType(itemsIds: string[]): Promise<Collection<string, Item[]>> {
+    const items = new Collection<string, Item[]>();
+    this.items.map((value: Item, key: string) => {
+      if (itemsIds.includes(key)) {
+        const type = value.type;
+        // Get the item array from the collection
+        let itemValues = items.get(type);
+        // If the array doesn't exist, create it
+        if (!itemValues) {
+          items.set(type, []);
+          itemValues = items.get(type);
+        }
+        // Add the item to the array
+        itemValues?.push(value);
+      }
+    });
+    return items;
+  }
 }

@@ -1,7 +1,4 @@
-import { Collection } from 'discord.js';
-import { AggregationCursor, Collection as MongoDBCollection, Db, FilterQuery, InsertOneWriteOpResult } from 'mongodb';
-import { ItemGroupedByType } from '../models/items/interface/item-grouped-by-type';
-import { Item } from '../models/items/item';
+import { Collection as MongoDBCollection, Db, FilterQuery, InsertOneWriteOpResult } from 'mongodb';
 import { User } from '../models/users/user';
 
 export class UserService {
@@ -41,31 +38,5 @@ export class UserService {
     }
     if (result.insertedCount === 0) throw new Error('Error creating user');
     return result.ops[0];
-  }
-
-  async getUserInventoryItemsGroupedByType(userId: string): Promise<Collection<string, Item[]>> {
-    const items = new Collection<string, Item[]>();
-    const userInventory = (await this.getUserById(userId)).inventory;
-    // Get the items from mongo & map it to the collection
-    const itemsCursor: AggregationCursor<ItemGroupedByType> = await this.itemCollection.aggregate([
-      {
-        $match: {
-          _id: {
-            $in: userInventory,
-          },
-        },
-      },
-      {
-        $group: {
-          _id: '$type',
-          items: {
-            $push: '$$ROOT',
-          },
-        },
-      },
-    ]);
-    // Fill collection
-    await itemsCursor.forEach((item) => items.set(item._id, item.items));
-    return items;
   }
 }
