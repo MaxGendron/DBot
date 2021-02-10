@@ -3,6 +3,7 @@
   "rarity": "Rareté",
   "stats": "Statistiques",
   "noItem": "Pas d'item",
+  "noInventoryItems": "Aucun items dans l'inventaire!",
   "getItem": {
     "description": "Retourne un item correspondant au nom donné.",
     "args": {
@@ -30,5 +31,10 @@
   "reloadItems": {
     "description": "Recharge les items de la collection.",
     "returnMessage": "Les items ont été rechargés"
+  },
+  "slot": {
+    "description": "Jouez à la machine à sous pour avoir une chance de gagner des items!",
+    "noWin": "Bien joué, vous venez de gagner, rien.",
+    "win": "Vous venez de gagner:"
   }
 }

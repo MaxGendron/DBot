@@ -1,3 +1,4 @@
+import { ItemRarityEnum } from './../models/items/enum/item-rarity.enum';
 import { DbotClient } from '../dbot-client';
 import { Collection, MessageEmbed, User } from 'discord.js';
 import {
@@ -74,8 +75,21 @@ export class ItemService {
     await this.itemCollection.drop();
   }
 
-  async getItems(): Promise<Collection<string, Item>> {
-    return this.items;
+  async getItemsGroupedByRarity(): Promise<Collection<ItemRarityEnum, Item[]>> {
+    const items = new Collection<ItemRarityEnum, Item[]>();
+    this.items.each((value: Item) => {
+      const rariry = value.rarity;
+      // Get the item array from the collection
+      let itemValues = items.get(rariry);
+      // If the array doesn't exist, create it
+      if (!itemValues) {
+        items.set(rariry, []);
+        itemValues = items.get(rariry);
+      }
+      // Add the item to the array
+      itemValues?.push(value);
+    });
+    return items;
   }
 
   // Populate the items collection. Doing it here instead of in the constructor so we can use await
@@ -83,7 +97,7 @@ export class ItemService {
     // Remove items for sanity
     this.items.clear();
     // Get the items from mongo & map it to the collection
-    const itemsCursor: Cursor<Item> = await this.itemCollection.find({});
+    const itemsCursor: Cursor<Item> = this.itemCollection.find({});
     await itemsCursor.forEach((item) => {
       this.items.set(item._id.toString(), item);
     });
@@ -111,5 +125,25 @@ export class ItemService {
     //Add id field if author is owner
     if (client.isOwner(author)) embed.addField('id', item._id.toHexString());
     return embed;
+  }
+
+  // Take a list of itemsIds and get their value from the items, then groupe it by type
+  async getItemsGroupedByType(itemsIds: string[]): Promise<Collection<string, Item[]>> {
+    const items = new Collection<string, Item[]>();
+    this.items.each((value: Item, key: string) => {
+      if (itemsIds.includes(key)) {
+        const type = value.type;
+        // Get the item array from the collection
+        let itemValues = items.get(type);
+        // If the array doesn't exist, create it
+        if (!itemValues) {
+          items.set(type, []);
+          itemValues = items.get(type);
+        }
+        // Add the item to the array
+        itemValues?.push(value);
+      }
+    });
+    return items;
   }
 }

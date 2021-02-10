@@ -40,7 +40,7 @@ export class DbotClient extends CommandoClient {
   }
 
   async destroy(): Promise<void> {
-    await super.destroy();
+    super.destroy();
     if (this.mongoClient) await this.mongoClient.close();
   }
 }

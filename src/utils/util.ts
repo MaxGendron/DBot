@@ -17,7 +17,7 @@ export class Util {
 
     // Check if the user responded
     if (responses && responses.size === 1) {
-      const choice = responses.first()?.content.toLowerCase() || 'n';
+      const choice = responses.first()?.content.toLowerCase() || no[0];
       if (yes.includes(choice)) return true;
       if (no.includes(choice)) return false;
     }
