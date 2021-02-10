@@ -25,7 +25,7 @@ module.exports = class InventoryCommand extends DbotCommand {
   async run(message: CommandoMessage): Promise<Message> {
     const author = message.author;
     const avatarURL = author.displayAvatarURL();
-    let itemIds: string [] = [];
+    let itemIds: string[] = [];
     try {
       itemIds = (await this.client.userService.getUserById(author.id)).inventory;
     } catch (e) {
