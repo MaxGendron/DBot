@@ -39,8 +39,8 @@ module.exports = class InventoryCommand extends DbotCommand {
     else {
       inventoryItems.each(async (items: Item[], key: string) => {
         let value = '';
-        await items.forEach(
-          (item) => (value += `${this.client.emojis.resolve(item.iconId)?.toString()} ${item.name}\n`),
+        items.forEach(
+          (item) => (value += `${this.client.emojis.resolve(item.iconId)?.toString()} ${item.name} (${item.rarity})\n`),
         );
         embed.addField(i18next.t(`enum:itemTypeEnum.${key}`), value);
       });
