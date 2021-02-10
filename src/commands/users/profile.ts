@@ -27,7 +27,13 @@ module.exports = class ProfileCommand extends DbotCommand {
   async run(message: CommandoMessage): Promise<Message> {
     const author = message.author;
     const avatarURL = author.displayAvatarURL();
-    const userItems = (await this.client.userService.getUserById(author.id)).equipped_items;
+    let userItems: Item[] = [];
+    try {
+      userItems = (await this.client.userService.getUserById(author.id)).equipped_items;
+    } catch (e) {
+      const unexpectedMessage = i18next.t('error.unexpected');
+      message.reply(unexpectedMessage);
+    }
     const embed = new MessageEmbed()
       .setColor(Const.embedColor)
       .setAuthor(i18next.t('users:profile.authorName', { username: author.username }), avatarURL)
