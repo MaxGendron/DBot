@@ -51,6 +51,10 @@ export class UserService {
         },
       },
     };
-    await this.userCollection.updateOne(filter, updateQuery);
+    try {
+      await this.userCollection.updateOne(filter, updateQuery);
+    } catch (error) {
+      throw new Error(error.message);
+    }
   }
 }
