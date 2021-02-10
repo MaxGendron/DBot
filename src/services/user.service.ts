@@ -1,4 +1,5 @@
-import { Collection as MongoDBCollection, Db, FilterQuery, InsertOneWriteOpResult } from 'mongodb';
+import { Collection as MongoDBCollection, Db, FilterQuery, InsertOneWriteOpResult, UpdateQuery } from 'mongodb';
+import { Item } from '../models/items/item';
 import { User } from '../models/users/user';
 
 export class UserService {
@@ -38,5 +39,22 @@ export class UserService {
     }
     if (result.insertedCount === 0) throw new Error('Error creating user');
     return result.ops[0];
+  }
+
+  async addItemsToUserInventory(items: Item[], userId: string): Promise<void> {
+    const itemIds = items.map((item) => item._id.toHexString());
+    const filter: FilterQuery<User> = { _id: userId };
+    const updateQuery: UpdateQuery<User> = {
+      $push: {
+        inventory: {
+          $each: itemIds,
+        },
+      },
+    };
+    try {
+      await this.userCollection.updateOne(filter, updateQuery);
+    } catch (error) {
+      throw new Error(error.message);
+    }
   }
 }
