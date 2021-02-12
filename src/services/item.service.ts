@@ -80,13 +80,13 @@ export class ItemService {
   async getItemsGroupedByRarity(): Promise<Collection<ItemRarityEnum, Item[]>> {
     const items = new Collection<ItemRarityEnum, Item[]>();
     this.items.each((value: Item) => {
-      const rariry = value.rarity;
+      const rarity = value.rarity;
       // Get the item array from the collection
-      let itemValues = items.get(rariry);
+      let itemValues = items.get(rarity);
       // If the array doesn't exist, create it
       if (!itemValues) {
-        items.set(rariry, []);
-        itemValues = items.get(rariry);
+        items.set(rarity, []);
+        itemValues = items.get(rarity);
       }
       // Add the item to the array
       itemValues?.push(value);
