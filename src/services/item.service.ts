@@ -1,3 +1,4 @@
+import { ItemTypeEnum } from './../models/items/enum/item-type.enum';
 import { ItemRarityEnum } from './../models/items/enum/item-rarity.enum';
 import { DbotClient } from '../dbot-client';
 import { Collection, MessageEmbed, User } from 'discord.js';
@@ -14,6 +15,7 @@ import { Item } from '../models/items/item';
 import { ItemStats } from '../models/items/item-stats';
 import { Const } from '../utils/const';
 import i18next from 'i18next';
+import { ItemWithQty } from '../models/items/item-with-qty';
 
 export class ItemService {
   // MongoDB collection for the items
@@ -128,11 +130,12 @@ export class ItemService {
   }
 
   // Take a list of itemsIds and get their value from the items, then groupe it by type
-  async getItemsGroupedByType(itemsIds: string[]): Promise<Collection<string, Item[]>> {
-    const items = new Collection<string, Item[]>();
-    this.items.each((value: Item, key: string) => {
-      if (itemsIds.includes(key)) {
-        const type = value.type;
+  async getItemsGroupedByType(itemsIds: string[]): Promise<Collection<ItemTypeEnum, ItemWithQty[]>> {
+    const items = new Collection<ItemTypeEnum, ItemWithQty[]>();
+    itemsIds.forEach((id) => {
+      const item = this.items.get(id);
+      if (item) {
+        const type = item.type;
         // Get the item array from the collection
         let itemValues = items.get(type);
         // If the array doesn't exist, create it
@@ -140,8 +143,13 @@ export class ItemService {
           items.set(type, []);
           itemValues = items.get(type);
         }
-        // Add the item to the array
-        itemValues?.push(value);
+        // Try to find the item in the array
+        const itemFound = itemValues?.filter((itemWithQty) => itemWithQty.item._id.toHexString() === id)[0];
+        // If item is not there add it, otherwise augment qty
+        if (!itemFound) {
+          const newItem = new ItemWithQty(item, 1);
+          itemValues?.push(newItem);
+        } else itemFound.qty = ++itemFound.qty;
       }
     });
     return items;

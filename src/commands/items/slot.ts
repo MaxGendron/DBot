@@ -27,7 +27,7 @@ module.exports = class SlotCommand extends DbotCommand {
     this.percentageByRarity.set(ItemRarityEnum.Common, 90);
     this.percentageByRarity.set(ItemRarityEnum.Rare, 30);
     this.percentageByRarity.set(ItemRarityEnum.Epic, 10);
-    this.percentageByRarity.set(ItemRarityEnum.Legendary, 2);
+    this.percentageByRarity.set(ItemRarityEnum.Legendary, 0.5);
   }
 
   async run(message: CommandoMessage): Promise<Message> {
@@ -39,7 +39,7 @@ module.exports = class SlotCommand extends DbotCommand {
     // Loop through the items
     items.forEach((value: Item[], key: ItemRarityEnum) => {
       // Calculate a boolean to see if the user has won or not, take in calculation the rarity
-      const rdn = randomInt(1, 101);
+      const rdn = Math.random() * (101 - 1) + 1;
       const hasWon = rdn <= (this.percentageByRarity.get(key) || 0);
       // If the user has won, take a random item from that rarity and stock it
       if (hasWon) {

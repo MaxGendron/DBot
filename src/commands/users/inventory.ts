@@ -4,7 +4,7 @@ import { DbotCommand } from '../../dbot-command';
 import i18next from 'i18next';
 import { Message, MessageEmbed, Collection } from 'discord.js';
 import { Const } from '../../utils/const';
-import { Item } from '../../models/items/item';
+import { ItemWithQty } from '../../models/items/item-with-qty';
 
 module.exports = class InventoryCommand extends DbotCommand {
   constructor(client: DbotClient) {
@@ -40,14 +40,20 @@ module.exports = class InventoryCommand extends DbotCommand {
     return message.embed(embed);
   }
 
-  private async addInventoryItems(embed: MessageEmbed, inventoryItems: Collection<string, Item[]>): Promise<void> {
+  private async addInventoryItems(
+    embed: MessageEmbed,
+    inventoryItems: Collection<string, ItemWithQty[]>,
+  ): Promise<void> {
     if (inventoryItems.size === 0) embed.setDescription(i18next.t('items:noInventoryItems'));
     else {
-      inventoryItems.each(async (items: Item[], key: string) => {
+      inventoryItems.each(async (items: ItemWithQty[], key: string) => {
         let value = '';
-        items.forEach(
-          (item) => (value += `${this.client.emojis.resolve(item.iconId)?.toString()} ${item.name} (${item.rarity})\n`),
-        );
+        items.forEach((itemWithQty) => {
+          const item = itemWithQty.item;
+          value += `${this.client.emojis.resolve(item.iconId)?.toString()} ${item.name} (${item.rarity})`;
+          if (itemWithQty.qty > 1) value += ` x${itemWithQty.qty}`;
+          value += '\n';
+        });
         embed.addField(i18next.t(`enum:itemTypeEnum.${key}`), value);
       });
     }
