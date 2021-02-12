@@ -28,7 +28,7 @@ module.exports = class InventoryCommand extends DbotCommand {
           prompt: '',
           type: 'string',
           oneOf: Object.values(ItemTypeEnum),
-          default: 'all',
+          default: Const.AllType,
         },
       ],
     });
@@ -46,7 +46,7 @@ module.exports = class InventoryCommand extends DbotCommand {
     }
     const inventoryItems = await this.client.itemService.getItemsGroupedByType(itemIds, itemType);
     const embed = new MessageEmbed()
-      .setColor(Const.embedColor)
+      .setColor(Const.EmbedColor)
       .setAuthor(i18next.t('users:inventory.authorName', { username: author.username }), avatarURL);
     await this.addInventoryItems(embed, inventoryItems);
     return message.embed(embed);

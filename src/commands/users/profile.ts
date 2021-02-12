@@ -36,7 +36,7 @@ module.exports = class ProfileCommand extends DbotCommand {
       message.reply(unexpectedMessage);
     }
     const embed = new MessageEmbed()
-      .setColor(Const.embedColor)
+      .setColor(Const.EmbedColor)
       .setAuthor(i18next.t('users:profile.authorName', { username: author.username }), avatarURL)
       .setThumbnail(avatarURL)
       .addFields(

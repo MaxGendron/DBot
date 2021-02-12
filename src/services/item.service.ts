@@ -117,7 +117,7 @@ export class ItemService {
   createMessageEmbed(item: Item, client: DbotClient, author: User): MessageEmbed {
     // TODO: upload icon to cdn and use in thumbnail instead of in the title
     const embed = new MessageEmbed()
-      .setColor(Const.embedColor)
+      .setColor(Const.EmbedColor)
       .setTitle(`${client.emojis.resolve(item.iconId)?.toString()} ${item.name}`)
       .addFields(
         { name: i18next.t('items:type'), value: item.type },
@@ -133,7 +133,7 @@ export class ItemService {
     const items = new Collection<ItemTypeEnum, ItemWithQty[]>();
     itemsIds.forEach((id) => {
       const item = this.items.get(id);
-      if (item && (itemType === 'all' || itemType === item.type)) {
+      if (item && (itemType === Const.AllType || itemType === item.type)) {
         const type = item.type;
         // Get the item array from the collection
         let itemValues = items.get(type);
