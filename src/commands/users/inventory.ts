@@ -5,6 +5,7 @@ import i18next from 'i18next';
 import { Message, MessageEmbed, Collection } from 'discord.js';
 import { Const } from '../../utils/const';
 import { ItemWithQty } from '../../models/items/item-with-qty';
+import { ItemTypeEnum } from '../../models/items/enum/item-type.enum';
 
 module.exports = class InventoryCommand extends DbotCommand {
   constructor(client: DbotClient) {
@@ -19,10 +20,20 @@ module.exports = class InventoryCommand extends DbotCommand {
         duration: 60,
       },
       guildOnly: true,
+      args: [
+        {
+          key: 'itemType',
+          // Prompt not used since arg optional
+          prompt: '',
+          type: 'string',
+          oneOf: Object.values(ItemTypeEnum),
+          default: 'all',
+        },
+      ],
     });
   }
 
-  async run(message: CommandoMessage): Promise<Message> {
+  async run(message: CommandoMessage, { itemType }): Promise<Message> {
     const author = message.author;
     const avatarURL = author.displayAvatarURL();
     let itemIds: string[] = [];
@@ -32,7 +43,7 @@ module.exports = class InventoryCommand extends DbotCommand {
       const unexpectedMessage = i18next.t('error.unexpected');
       message.reply(unexpectedMessage);
     }
-    const inventoryItems = await this.client.itemService.getItemsGroupedByType(itemIds);
+    const inventoryItems = await this.client.itemService.getItemsGroupedByType(itemIds, itemType);
     const embed = new MessageEmbed()
       .setColor(Const.embedColor)
       .setAuthor(i18next.t('users:inventory.authorName', { username: author.username }), avatarURL);

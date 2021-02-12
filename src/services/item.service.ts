@@ -129,12 +129,11 @@ export class ItemService {
     return embed;
   }
 
-  // Take a list of itemsIds and get their value from the items, then groupe it by type
-  async getItemsGroupedByType(itemsIds: string[]): Promise<Collection<ItemTypeEnum, ItemWithQty[]>> {
+  async getItemsGroupedByType(itemsIds: string[], itemType: string): Promise<Collection<ItemTypeEnum, ItemWithQty[]>> {
     const items = new Collection<ItemTypeEnum, ItemWithQty[]>();
     itemsIds.forEach((id) => {
       const item = this.items.get(id);
-      if (item) {
+      if (item && (itemType === 'all' || itemType === item.type)) {
         const type = item.type;
         // Get the item array from the collection
         let itemValues = items.get(type);
