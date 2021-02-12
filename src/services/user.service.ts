@@ -12,12 +12,9 @@ import { User } from '../models/users/user';
 export class UserService {
   // MongoDB collection for the user
   private userCollection: MongoDBCollection;
-  // MongoDB collection for the items
-  private itemCollection: MongoDBCollection;
 
   constructor(db: Db) {
     this.userCollection = db.collection('users');
-    this.itemCollection = db.collection('items');
   }
 
   async getUserById(userId: string): Promise<User> {

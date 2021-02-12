@@ -113,7 +113,7 @@ module.exports = class SlotCommand extends DbotCommand {
     itemsWon.forEach((item) => {
       returnMessage += `${i18next.t('items:slot.won')} ${this.client.emojis.resolve(item.iconId)?.toString()} ${
         item.name
-      } (${item.rarity})\n`;
+      } (${ItemRarityEnum[item.rarity]})\n`;
     });
     return returnMessage;
   }

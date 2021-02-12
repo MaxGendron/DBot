@@ -6,6 +6,7 @@ import { Message, MessageEmbed, Collection } from 'discord.js';
 import { Const } from '../../utils/const';
 import { ItemWithQty } from '../../models/items/item-with-qty';
 import { ItemTypeEnum } from '../../models/items/enum/item-type.enum';
+import { ItemRarityEnum } from '../../models/items/enum/item-rarity.enum';
 
 module.exports = class InventoryCommand extends DbotCommand {
   constructor(client: DbotClient) {
@@ -59,9 +60,16 @@ module.exports = class InventoryCommand extends DbotCommand {
     else {
       inventoryItems.each(async (items: ItemWithQty[], key: string) => {
         let value = '';
+        items.sort((a, b) => {
+          if (a.item.rarity < b.item.rarity) return -1;
+          if (a.item.rarity > b.item.rarity) return 1;
+          return 0;
+        });
         items.forEach((itemWithQty) => {
           const item = itemWithQty.item;
-          value += `${this.client.emojis.resolve(item.iconId)?.toString()} ${item.name} (${item.rarity})`;
+          value += `${this.client.emojis.resolve(item.iconId)?.toString()} ${item.name} (${
+            ItemRarityEnum[item.rarity]
+          })`;
           if (itemWithQty.qty > 1) value += ` x${itemWithQty.qty}`;
           value += '\n';
         });

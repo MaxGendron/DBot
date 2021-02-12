@@ -121,7 +121,7 @@ export class ItemService {
       .setTitle(`${client.emojis.resolve(item.iconId)?.toString()} ${item.name}`)
       .addFields(
         { name: i18next.t('items:type'), value: item.type },
-        { name: i18next.t('items:rarity'), value: item.rarity },
+        { name: i18next.t('items:rarity'), value: ItemRarityEnum[item.rarity] },
         { name: i18next.t('items:stats'), value: client.itemService.getFormattedStats(item.stats) },
       );
     //Add id field if author is owner
