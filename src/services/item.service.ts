@@ -1,3 +1,4 @@
+import { ItemTypeEnum } from './../models/items/enum/item-type.enum';
 import { ItemRarityEnum } from './../models/items/enum/item-rarity.enum';
 import { DbotClient } from '../dbot-client';
 import { Collection, MessageEmbed, User } from 'discord.js';
@@ -14,6 +15,7 @@ import { Item } from '../models/items/item';
 import { ItemStats } from '../models/items/item-stats';
 import { Const } from '../utils/const';
 import i18next from 'i18next';
+import { ItemWithQty } from '../models/items/item-with-qty';
 
 export class ItemService {
   // MongoDB collection for the items
@@ -78,13 +80,13 @@ export class ItemService {
   async getItemsGroupedByRarity(): Promise<Collection<ItemRarityEnum, Item[]>> {
     const items = new Collection<ItemRarityEnum, Item[]>();
     this.items.each((value: Item) => {
-      const rariry = value.rarity;
+      const rarity = value.rarity;
       // Get the item array from the collection
-      let itemValues = items.get(rariry);
+      let itemValues = items.get(rarity);
       // If the array doesn't exist, create it
       if (!itemValues) {
-        items.set(rariry, []);
-        itemValues = items.get(rariry);
+        items.set(rarity, []);
+        itemValues = items.get(rarity);
       }
       // Add the item to the array
       itemValues?.push(value);
@@ -115,11 +117,11 @@ export class ItemService {
   createMessageEmbed(item: Item, client: DbotClient, author: User): MessageEmbed {
     // TODO: upload icon to cdn and use in thumbnail instead of in the title
     const embed = new MessageEmbed()
-      .setColor(Const.embedColor)
+      .setColor(Const.EmbedColor)
       .setTitle(`${client.emojis.resolve(item.iconId)?.toString()} ${item.name}`)
       .addFields(
         { name: i18next.t('items:type'), value: item.type },
-        { name: i18next.t('items:rarity'), value: item.rarity },
+        { name: i18next.t('items:rarity'), value: ItemRarityEnum[item.rarity] },
         { name: i18next.t('items:stats'), value: client.itemService.getFormattedStats(item.stats) },
       );
     //Add id field if author is owner
@@ -127,12 +129,12 @@ export class ItemService {
     return embed;
   }
 
-  // Take a list of itemsIds and get their value from the items, then groupe it by type
-  async getItemsGroupedByType(itemsIds: string[]): Promise<Collection<string, Item[]>> {
-    const items = new Collection<string, Item[]>();
-    this.items.each((value: Item, key: string) => {
-      if (itemsIds.includes(key)) {
-        const type = value.type;
+  async getItemsGroupedByType(itemsIds: string[], itemType: string): Promise<Collection<ItemTypeEnum, ItemWithQty[]>> {
+    const items = new Collection<ItemTypeEnum, ItemWithQty[]>();
+    itemsIds.forEach((id) => {
+      const item = this.items.get(id);
+      if (item && (itemType === Const.AllType || itemType === item.type)) {
+        const type = item.type;
         // Get the item array from the collection
         let itemValues = items.get(type);
         // If the array doesn't exist, create it
@@ -140,8 +142,13 @@ export class ItemService {
           items.set(type, []);
           itemValues = items.get(type);
         }
-        // Add the item to the array
-        itemValues?.push(value);
+        // Try to find the item in the array
+        const itemFound = itemValues?.filter((itemWithQty) => itemWithQty.item._id.toHexString() === id)[0];
+        // If item is not there add it, otherwise augment qty
+        if (!itemFound) {
+          const newItem = new ItemWithQty(item, 1);
+          itemValues?.push(newItem);
+        } else itemFound.qty = ++itemFound.qty;
       }
     });
     return items;
