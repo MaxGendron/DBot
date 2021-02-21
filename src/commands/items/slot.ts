@@ -1,3 +1,5 @@
+import { Const } from './../../utils/const';
+import { User } from './../../models/users/user';
 import { ItemRarityEnum } from './../../models/items/enum/item-rarity.enum';
 import { DbotClient } from '../../dbot-client';
 import { CommandoMessage } from 'discord.js-commando';
@@ -32,10 +34,20 @@ module.exports = class SlotCommand extends DbotCommand {
 
   async run(message: CommandoMessage): Promise<Message> {
     const author = message.author;
+    const unexpectedMessage = i18next.t('error.unexpected');
     // Get all items grouped by rarity
     const items = await this.client.itemService.getItemsGroupedByRarity();
     const itemsWon: Item[] = [];
     const itemsToShow = new Collection<ItemRarityEnum, Item[]>();
+
+    // Get the user
+    let user: User;
+    try {
+      user = await this.client.userService.getUserById(author.id);
+    } catch (e) {
+      return message.reply(unexpectedMessage);
+    }
+
     // Loop through the items
     items.forEach((value: Item[], key: ItemRarityEnum) => {
       // Calculate a boolean to see if the user has won or not, take in calculation the rarity
@@ -66,13 +78,14 @@ module.exports = class SlotCommand extends DbotCommand {
         itemsToShow.set(key, randomItems);
       }
     });
+
     // Add the items to the user inventory
     try {
       this.client.userService.addItemsToUserInventory(itemsWon, author.id);
     } catch (e) {
-      const unexpectedMessage = i18next.t('error.unexpected');
-      message.reply(unexpectedMessage);
+      return message.reply(unexpectedMessage);
     }
+
     // Do the "edit message", reveal one row at a time
     const msg: Message = await message.say(this.getMessage(itemsToShow, 4));
     await this.delay(1000);
@@ -80,8 +93,9 @@ module.exports = class SlotCommand extends DbotCommand {
       await msg.edit(this.getMessage(itemsToShow, i));
       await this.delay(1000);
     }
+
     // Format the items won and return to the user
-    const returnMessage = `${author.username}: ${this.formatItemsWon(itemsWon)}`;
+    const returnMessage = `${author.username}: ${this.formatItemsWon(itemsWon, user.inventory)}`;
     return message.say(returnMessage);
   }
 
@@ -89,6 +103,7 @@ module.exports = class SlotCommand extends DbotCommand {
     let message = '';
     const itemIndex = itemsToShow.size - hiddenRowCount;
     let index = 0;
+
     // Loop through the collection, only reveal row that we asked
     itemsToShow.each((value: Item[]) => {
       if (index < itemIndex) {
@@ -99,6 +114,7 @@ module.exports = class SlotCommand extends DbotCommand {
         index++;
       }
     });
+
     // Add hidden rows at the end
     for (let i = 0; i < hiddenRowCount; i++) {
       // eslint-disable-next-line no-useless-escape
@@ -107,10 +123,12 @@ module.exports = class SlotCommand extends DbotCommand {
     return message;
   }
 
-  formatItemsWon(itemsWon: Item[]): string {
+  formatItemsWon(itemsWon: Item[], userInventory: string[]): string {
     if (itemsWon.length === 0) return i18next.t('items:slot.noWin');
     let returnMessage = '';
     itemsWon.forEach((item) => {
+      // If the user don't already have the item, show a "new item" badge
+      if (!userInventory.includes(item._id.toHexString())) returnMessage += `${Const.NewItemIcon} `;
       returnMessage += `${i18next.t('items:slot.won')} ${this.client.emojis.resolve(item.iconId)?.toString()} ${
         item.name
       } (${ItemRarityEnum[item.rarity]})\n`;
