@@ -30,10 +30,10 @@ module.exports = class ProfileCommand extends DbotCommand {
     const avatarURL = author.displayAvatarURL();
     let userItems: Item[] = [];
     try {
-      userItems = (await this.client.userService.getUserById(author.id)).equipped_items || [];
+      userItems = (await this.client.userService.getUserById(author.id)).equipped_items;
     } catch (e) {
       const unexpectedMessage = i18next.t('error.unexpected');
-      message.reply(unexpectedMessage);
+      return message.reply(unexpectedMessage);
     }
     const embed = new MessageEmbed()
       .setColor(Const.EmbedColor)

@@ -1,11 +1,4 @@
-import {
-  Collection as MongoDBCollection,
-  Db,
-  FilterQuery,
-  InsertOneWriteOpResult,
-  UpdateOneOptions,
-  UpdateQuery,
-} from 'mongodb';
+import { Collection as MongoDBCollection, Db, FilterQuery, InsertOneWriteOpResult, UpdateQuery } from 'mongodb';
 import { Item } from '../models/items/item';
 import { User } from '../models/users/user';
 
@@ -48,7 +41,6 @@ export class UserService {
   async addItemsToUserInventory(items: Item[], userId: string): Promise<void> {
     const itemIds = items.map((item) => item._id.toHexString());
     const filter: FilterQuery<User> = { _id: userId };
-    const options: UpdateOneOptions = { upsert: true };
     const updateQuery: UpdateQuery<User> = {
       $push: {
         inventory: {
@@ -57,7 +49,7 @@ export class UserService {
       },
     };
     try {
-      await this.userCollection.updateOne(filter, updateQuery, options);
+      await this.userCollection.updateOne(filter, updateQuery);
     } catch (error) {
       throw new Error(error.message);
     }

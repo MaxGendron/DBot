@@ -53,7 +53,7 @@ module.exports = class InventoryCommand extends DbotCommand {
       itemIds = (await this.client.userService.getUserById(author.id)).inventory;
     } catch (e) {
       const unexpectedMessage = i18next.t('error.unexpected');
-      message.reply(unexpectedMessage);
+      return message.reply(unexpectedMessage);
     }
     const inventoryItems = await this.client.itemService.getItemsGroupedByType(itemIds, itemType);
     const inventoryPaging = new InventoryPaging(inventoryItems, itemIds.length);
