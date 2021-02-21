@@ -7,6 +7,7 @@ import { Message, MessageEmbed } from 'discord.js';
 import { Const } from '../../utils/const';
 import { Item } from '../../models/items/item';
 import { ItemTypeEnum } from '../../models/items/enum/item-type.enum';
+import { ItemRarityEnum } from '../../models/items/enum/item-rarity.enum';
 
 module.exports = class ProfileCommand extends DbotCommand {
   constructor(client: DbotClient) {
@@ -29,13 +30,13 @@ module.exports = class ProfileCommand extends DbotCommand {
     const avatarURL = author.displayAvatarURL();
     let userItems: Item[] = [];
     try {
-      userItems = (await this.client.userService.getUserById(author.id)).equipped_items;
+      userItems = (await this.client.userService.getUserById(author.id)).equipped_items || [];
     } catch (e) {
       const unexpectedMessage = i18next.t('error.unexpected');
       message.reply(unexpectedMessage);
     }
     const embed = new MessageEmbed()
-      .setColor(Const.embedColor)
+      .setColor(Const.EmbedColor)
       .setAuthor(i18next.t('users:profile.authorName', { username: author.username }), avatarURL)
       .setThumbnail(avatarURL)
       .addFields(
@@ -55,7 +56,7 @@ module.exports = class ProfileCommand extends DbotCommand {
       // TODO: Add emoji for each itemType
       if (item)
         result += `${valueLocalized}: ${this.client.emojis.resolve(item.iconId)?.toString()} ${item.name}, ${
-          item.rarity
+          ItemRarityEnum[item.rarity]
         }\n`;
       else result += `${valueLocalized}: ${i18next.t('items:noItem')}\n`;
     });
