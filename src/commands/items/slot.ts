@@ -33,6 +33,18 @@ module.exports = class SlotCommand extends DbotCommand {
   }
 
   async run(message: CommandoMessage): Promise<Message> {
+    // If there's already a heavy command running, return
+    const current = this.client.runningCommands.get(message.channel.id);
+    if (current) {
+      // Reset the throttle of the user
+      //const throttle = this.throttle(message.author.id);
+      //--throttle.usages
+      const returnMessage = i18next.t('error.waitRunningCommand', { name: current });
+      return message.reply(returnMessage);
+    }
+    // Add a entry to the runningCommand collection
+    this.client.runningCommands.set(message.channel.id, this.name);
+
     const author = message.author;
     const unexpectedMessage = i18next.t('error.unexpected');
     // Get all items grouped by rarity
@@ -45,6 +57,7 @@ module.exports = class SlotCommand extends DbotCommand {
     try {
       user = await this.client.userService.getUserById(author.id);
     } catch (e) {
+      this.client.runningCommands.delete(message.channel.id);
       return message.reply(unexpectedMessage);
     }
 
@@ -83,6 +96,7 @@ module.exports = class SlotCommand extends DbotCommand {
     try {
       this.client.userService.addItemsToUserInventory(itemsWon, author.id);
     } catch (e) {
+      this.client.runningCommands.delete(message.channel.id);
       return message.reply(unexpectedMessage);
     }
 
@@ -96,6 +110,7 @@ module.exports = class SlotCommand extends DbotCommand {
 
     // Format the items won and return to the user
     const returnMessage = `${author.username}: ${this.formatItemsWon(itemsWon, user.inventory)}`;
+    this.client.runningCommands.delete(message.channel.id);
     return message.say(returnMessage);
   }
 
