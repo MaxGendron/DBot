@@ -129,9 +129,9 @@ module.exports = class SlotCommand extends DbotCommand {
     itemsWon.forEach((item) => {
       // If the user don't already have the item, show a "new item" badge
       if (!userInventory.includes(item._id.toHexString())) returnMessage += `${Const.NewItemIcon} `;
-      returnMessage += `${i18next.t('items:slot.won')} ${this.client.emojis.resolve(item.iconId)?.toString()} ${
+      returnMessage += `${i18next.t('items:slot.won')} ${this.client.emojis.resolve(item.iconId)?.toString()} **${
         item.name
-      } (${ItemRarityEnum[item.rarity]})\n`;
+      }** (${ItemRarityEnum[item.rarity]})\n`;
     });
     return returnMessage;
   }
