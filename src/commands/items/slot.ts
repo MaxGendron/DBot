@@ -36,7 +36,7 @@ module.exports = class SlotCommand extends DbotCommand {
     const author = message.author;
     const unexpectedMessage = i18next.t('error.unexpected');
     // Get all items grouped by rarity
-    const items = await this.client.itemService.getItemsGroupedByRarity();
+    const items = this.client.itemService.getItemsGroupedByRarity();
     const itemsWon: Item[] = [];
     const itemsToShow = new Collection<ItemRarityEnum, Item[]>();
 

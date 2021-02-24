@@ -29,11 +29,11 @@ export class ItemService {
     this.items = new Collection<string, Item>();
   }
 
-  async getItemById(itemId: string): Promise<Item | undefined> {
+  getItemById(itemId: string): Item | undefined {
     return this.items.get(itemId);
   }
 
-  async getItemByName(name: string): Promise<Item | undefined> {
+  getItemByName(name: string): Item | undefined {
     return this.items.find((item) => item.name.toLowerCase() === name.toLowerCase());
   }
 
@@ -77,7 +77,7 @@ export class ItemService {
     await this.itemCollection.drop();
   }
 
-  async getItemsGroupedByRarity(): Promise<Collection<ItemRarityEnum, Item[]>> {
+  getItemsGroupedByRarity(): Collection<ItemRarityEnum, Item[]> {
     const items = new Collection<ItemRarityEnum, Item[]>();
     this.items.each((value: Item) => {
       const rarity = value.rarity;
@@ -129,7 +129,7 @@ export class ItemService {
     return embed;
   }
 
-  async getItemsGroupedByType(itemsIds: string[], itemType: string): Promise<Collection<ItemTypeEnum, ItemWithQty[]>> {
+  getItemsGroupedByType(itemsIds: string[], itemType: string): Collection<ItemTypeEnum, ItemWithQty[]> {
     const items = new Collection<ItemTypeEnum, ItemWithQty[]>();
     itemsIds.forEach((id) => {
       const item = this.items.get(id);
