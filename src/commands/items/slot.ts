@@ -81,7 +81,7 @@ module.exports = class SlotCommand extends DbotCommand {
 
     // Add the items to the user inventory
     try {
-      this.client.userService.addItemsToUserInventory(itemsWon, author.id);
+      await this.client.userService.addItemsToUserInventory(itemsWon, author.id);
     } catch (e) {
       return message.reply(unexpectedMessage);
     }
