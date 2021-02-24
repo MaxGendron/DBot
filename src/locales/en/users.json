@@ -7,5 +7,14 @@
   "inventory": {
     "description": "Return the inventory of the user.",
     "authorName": "{{username}}'s inventory"
+  },
+  "equip": {
+    "description": "Equip the item passed as param.",
+    "itemNotInInventory": "Cannot equip **{{itemName}}** since you don't have it in your inventory.",
+    "wantsReplaceItem": "You already have **{{itemName}}** equipped for that type of item, do you want to replace it?",
+    "args": {
+      "itemName": "Which item do you equip? (Enter the name of the item)"
+    },
+    "response": "has been equipped!"
   }
 }

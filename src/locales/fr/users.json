@@ -7,5 +7,14 @@
   "inventory": {
     "description": "Renvoie l'inventaire de l'utilisateur.",
     "authorName": "Inventaire de {{username}}"
+  },
+  "equip": {
+    "description": "Équipe l'item passé en paramètre.",
+    "itemNotInInventory": "Impossible d'équiper **{{itemName}}** car vous ne l'avez pas dans votre inventaire.",
+    "wantsReplaceItem": "Vous avez déjà **{{itemName}}** d'équipé pour ce type d'item, voulez-vous le remplacer?",
+    "args": {
+      "itemName": "Quel item voulez-vous équiper? (Entrez le nom de l'item)"
+    },
+    "response": "a été équipé!"
   }
 }
