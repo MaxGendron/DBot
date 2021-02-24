@@ -30,6 +30,7 @@ module.exports = class DeleteItemCommand extends DbotCommand {
     try {
       await this.client.itemService.deleteItem(id);
     } catch (error) {
+      this.client.logger.logError(error.message);
       if (error.message === 'No document matching') {
         const replyMessage = i18next.t('error.noDocumentFound');
         return message.reply(replyMessage);

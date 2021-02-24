@@ -45,6 +45,7 @@ module.exports = class SlotCommand extends DbotCommand {
     try {
       user = await this.client.userService.getUserById(author.id);
     } catch (e) {
+      this.client.logger.logError(e.message);
       return message.reply(unexpectedMessage);
     }
 
@@ -83,6 +84,7 @@ module.exports = class SlotCommand extends DbotCommand {
     try {
       await this.client.userService.addItemsToUserInventory(itemsWon, author.id);
     } catch (e) {
+      this.client.logger.logError(e.message);
       return message.reply(unexpectedMessage);
     }
 

@@ -48,6 +48,7 @@ module.exports = class CreateOrUpdateItemCommand extends DbotCommand {
       });
       item = serializer.parse(itemJson);
     } catch (error) {
+      this.client.logger.logError(`Error Deserializing:\n${error.message}`);
       const replyMessage = i18next.t('error.deserialize');
       return message.reply(replyMessage);
     }
@@ -60,6 +61,7 @@ module.exports = class CreateOrUpdateItemCommand extends DbotCommand {
         id = id === defaultId ? undefined : id;
         newItem = await this.client.itemService.createOrUpdateItem(item, id);
       } catch (error) {
+        this.client.logger.logError(error.message);
         // E11000 is the mongoDB error code for duplicate key error (unique in this case)
         if (error.message && error.message.startsWith('E11000')) {
           const replyMessage = i18next.t('error.itemWithSameName');

@@ -78,6 +78,7 @@ module.exports = class EquipCommand extends DbotCommand {
         return message.reply(replyMessage);
       }
     } catch (e) {
+      this.client.logger.logError(e.message);
       const unexpectedMessage = i18next.t('error.unexpected');
       return message.reply(unexpectedMessage);
     }

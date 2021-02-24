@@ -32,6 +32,7 @@ module.exports = class ProfileCommand extends DbotCommand {
     try {
       userItems = (await this.client.userService.getUserById(author.id)).equipped_items;
     } catch (e) {
+      this.client.logger.logError(e.message);
       const unexpectedMessage = i18next.t('error.unexpected');
       return message.reply(unexpectedMessage);
     }
