@@ -58,7 +58,9 @@ module.exports = class InventoryCommand extends DbotCommand {
     }
     const inventoryItems = this.client.itemService.getItemsGroupedByType(itemIds, itemType);
     let numberOfItems = 0;
-    inventoryItems.each( (value: ItemWithQty[])  => { numberOfItems += value.length; } );
+    inventoryItems.each((value: ItemWithQty[]) => {
+      numberOfItems += value.length;
+    });
     const inventoryPaging = new InventoryPaging(inventoryItems, numberOfItems);
     this.pagingCollection.set(author.id, inventoryPaging);
 
@@ -145,7 +147,7 @@ module.exports = class InventoryCommand extends DbotCommand {
       // Add footer
       const pagingModulo = inventoyPaging.itemsCount % Const.DefaultPagingRange;
       const pagingDivision = Math.floor(inventoyPaging.itemsCount / Const.DefaultPagingRange);
-      const maxPage = pagingModulo > 0 ? pagingDivision + 1: pagingDivision;
+      const maxPage = pagingModulo > 0 ? pagingDivision + 1 : pagingDivision;
       embed.setFooter(`Page ${inventoyPaging.currentPage}\\${maxPage}`);
     }
   }
