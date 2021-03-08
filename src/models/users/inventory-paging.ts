@@ -6,6 +6,7 @@ export class InventoryPaging {
   inventoryItems: Collection<string, ItemWithQty[]>;
   startIndex = Const.DefaultPagingIndex;
   itemsCount: number;
+  currentPage = 1;
 
   constructor(inventoryItems: Collection<string, ItemWithQty[]>, itemsCount: number) {
     this.inventoryItems = inventoryItems;
