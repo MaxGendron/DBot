@@ -15,7 +15,7 @@
     "args": {
       "id": "Enter the id of the item"
     },
-    "returnMessage": "The item with the id: {{id}} has been deleted"
+    "returnMessage": "The item with the id: **{{id}}** has been deleted"
   },
   "deleteItems": {
     "description": "Delete all the items.",

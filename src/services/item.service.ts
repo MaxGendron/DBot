@@ -16,6 +16,7 @@ import { ItemStats } from '../models/items/item-stats';
 import { Const } from '../utils/const';
 import i18next from 'i18next';
 import { ItemWithQty } from '../models/items/item-with-qty';
+import { Util } from '../utils/util';
 
 export class ItemService {
   // MongoDB collection for the items
@@ -29,11 +30,11 @@ export class ItemService {
     this.items = new Collection<string, Item>();
   }
 
-  async getItemById(itemId: string): Promise<Item | undefined> {
+  getItemById(itemId: string): Item | undefined {
     return this.items.get(itemId);
   }
 
-  async getItemByName(name: string): Promise<Item | undefined> {
+  getItemByName(name: string): Item | undefined {
     return this.items.find((item) => item.name.toLowerCase() === name.toLowerCase());
   }
 
@@ -77,17 +78,15 @@ export class ItemService {
     await this.itemCollection.drop();
   }
 
-  async getItemsGroupedByRarity(): Promise<Collection<ItemRarityEnum, Item[]>> {
+  getItemsGroupedByRarity(): Collection<ItemRarityEnum, Item[]> {
     const items = new Collection<ItemRarityEnum, Item[]>();
+    Util.getItemRarityEnumKeys().forEach((key) => {
+      items.set(ItemRarityEnum[key], []);
+    });
     this.items.each((value: Item) => {
       const rarity = value.rarity;
       // Get the item array from the collection
-      let itemValues = items.get(rarity);
-      // If the array doesn't exist, create it
-      if (!itemValues) {
-        items.set(rarity, []);
-        itemValues = items.get(rarity);
-      }
+      const itemValues = items.get(rarity);
       // Add the item to the array
       itemValues?.push(value);
     });
@@ -129,7 +128,7 @@ export class ItemService {
     return embed;
   }
 
-  async getItemsGroupedByType(itemsIds: string[], itemType: string): Promise<Collection<ItemTypeEnum, ItemWithQty[]>> {
+  getItemsGroupedByType(itemsIds: string[], itemType: string): Collection<ItemTypeEnum, ItemWithQty[]> {
     const items = new Collection<ItemTypeEnum, ItemWithQty[]>();
     itemsIds.forEach((id) => {
       const item = this.items.get(id);

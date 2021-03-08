@@ -15,7 +15,7 @@
     "args": {
       "id": "Entrez l'id de l'item"
     },
-    "returnMessage": "L'item avec l'id: {{id}} a été supprimé"
+    "returnMessage": "L'item avec l'id: **{{id}}** a été supprimé"
   },
   "deleteItems": {
     "description": "Supprime tous les items.",

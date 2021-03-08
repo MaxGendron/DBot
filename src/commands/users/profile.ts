@@ -30,10 +30,11 @@ module.exports = class ProfileCommand extends DbotCommand {
     const avatarURL = author.displayAvatarURL();
     let userItems: Item[] = [];
     try {
-      userItems = (await this.client.userService.getUserById(author.id)).equipped_items || [];
+      userItems = (await this.client.userService.getUserById(author.id)).equipped_items;
     } catch (e) {
+      this.client.logger.logError(e.message);
       const unexpectedMessage = i18next.t('error.unexpected');
-      message.reply(unexpectedMessage);
+      return message.reply(unexpectedMessage);
     }
     const embed = new MessageEmbed()
       .setColor(Const.EmbedColor)
@@ -55,9 +56,9 @@ module.exports = class ProfileCommand extends DbotCommand {
       const valueLocalized = i18next.t(`enum:itemTypeEnum.${value}`);
       // TODO: Add emoji for each itemType
       if (item)
-        result += `${valueLocalized}: ${this.client.emojis.resolve(item.iconId)?.toString()} ${item.name}, ${
+        result += `${valueLocalized}: ${this.client.emojis.resolve(item.iconId)?.toString()} **${item.name}** (${
           ItemRarityEnum[item.rarity]
-        }\n`;
+        })\n`;
       else result += `${valueLocalized}: ${i18next.t('items:noItem')}\n`;
     });
     return result;

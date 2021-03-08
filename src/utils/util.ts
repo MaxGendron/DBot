@@ -1,3 +1,4 @@
+import { ItemRarityEnum } from './../models/items/enum/item-rarity.enum';
 import { DMChannel, NewsChannel, TextChannel, User } from 'discord.js';
 const yes = ['yes', 'y', 'oui'];
 const no = ['no', 'n', 'non'];
@@ -23,5 +24,9 @@ export class Util {
     }
 
     return false;
+  }
+
+  static getItemRarityEnumKeys(): string[] {
+    return Object.keys(ItemRarityEnum).filter((key) => !isNaN(Number(ItemRarityEnum[key])));
   }
 }

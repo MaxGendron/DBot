@@ -52,11 +52,16 @@ module.exports = class InventoryCommand extends DbotCommand {
     try {
       itemIds = (await this.client.userService.getUserById(author.id)).inventory;
     } catch (e) {
+      this.client.logger.logError(e.message);
       const unexpectedMessage = i18next.t('error.unexpected');
-      message.reply(unexpectedMessage);
+      return message.reply(unexpectedMessage);
     }
-    const inventoryItems = await this.client.itemService.getItemsGroupedByType(itemIds, itemType);
-    const inventoryPaging = new InventoryPaging(inventoryItems, itemIds.length);
+    const inventoryItems = this.client.itemService.getItemsGroupedByType(itemIds, itemType);
+    let numberOfItems = 0;
+    inventoryItems.each((value: ItemWithQty[]) => {
+      numberOfItems += value.length;
+    });
+    const inventoryPaging = new InventoryPaging(inventoryItems, numberOfItems);
     this.pagingCollection.set(author.id, inventoryPaging);
 
     // Create the messageEmbed
@@ -95,6 +100,15 @@ module.exports = class InventoryCommand extends DbotCommand {
     return msg;
   }
 
+  private async createMessageEmbed(author: User, inventoyPaging: InventoryPaging): Promise<MessageEmbed> {
+    const avatarURL = author.displayAvatarURL();
+    const embed = new MessageEmbed()
+      .setColor(Const.EmbedColor)
+      .setAuthor(i18next.t('users:inventory.authorName', { username: author.username }), avatarURL);
+    await this.addInventoryItemsToEmbed(embed, inventoyPaging);
+    return embed;
+  }
+
   private async addInventoryItemsToEmbed(embed: MessageEmbed, inventoyPaging: InventoryPaging): Promise<void> {
     const inventoryItems = inventoyPaging.inventoryItems;
     const startIndex = inventoyPaging.startIndex;
@@ -106,10 +120,10 @@ module.exports = class InventoryCommand extends DbotCommand {
       // Loop through the collection which contains items grouped by itemType
       inventoryItems.each(async (items: ItemWithQty[], key: string) => {
         let value = '';
-        // Sort by rarity
+        // Sort by rarity desc
         items.sort((a, b) => {
-          if (a.item.rarity < b.item.rarity) return -1;
-          if (a.item.rarity > b.item.rarity) return 1;
+          if (a.item.rarity > b.item.rarity) return -1;
+          if (a.item.rarity < b.item.rarity) return 1;
           return 0;
         });
 
@@ -129,16 +143,13 @@ module.exports = class InventoryCommand extends DbotCommand {
         });
         embed.addField(i18next.t(`enum:itemTypeEnum.${key}`), value);
       });
-    }
-  }
 
-  private async createMessageEmbed(author: User, inventoyPaging: InventoryPaging): Promise<MessageEmbed> {
-    const avatarURL = author.displayAvatarURL();
-    const embed = new MessageEmbed()
-      .setColor(Const.EmbedColor)
-      .setAuthor(i18next.t('users:inventory.authorName', { username: author.username }), avatarURL);
-    await this.addInventoryItemsToEmbed(embed, inventoyPaging);
-    return embed;
+      // Add footer
+      const pagingModulo = inventoyPaging.itemsCount % Const.DefaultPagingRange;
+      const pagingDivision = Math.floor(inventoyPaging.itemsCount / Const.DefaultPagingRange);
+      const maxPage = pagingModulo > 0 ? pagingDivision + 1 : pagingDivision;
+      embed.setFooter(`Page ${inventoyPaging.currentPage}\\${maxPage}`);
+    }
   }
 
   private async handleCollectorResponse(reaction: MessageReaction, user: User): Promise<void> {

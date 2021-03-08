@@ -27,9 +27,9 @@ module.exports = class GetItemCommand extends DbotCommand {
     });
   }
 
-  async run(message: CommandoMessage, { itemName }): Promise<Message> {
+  run(message: CommandoMessage, { itemName }): Promise<Message> {
     // Get the item
-    const item = await this.client.itemService.getItemByName(itemName);
+    const item = this.client.itemService.getItemByName(itemName);
     if (!item) {
       const replyMessage = i18next.t('error.noItemFoundForName', { itemName: itemName });
       return message.reply(replyMessage);

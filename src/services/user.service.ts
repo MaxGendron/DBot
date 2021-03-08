@@ -1,9 +1,9 @@
 import {
+  BulkWriteOperation,
   Collection as MongoDBCollection,
   Db,
   FilterQuery,
   InsertOneWriteOpResult,
-  UpdateOneOptions,
   UpdateQuery,
 } from 'mongodb';
 import { Item } from '../models/items/item';
@@ -48,7 +48,6 @@ export class UserService {
   async addItemsToUserInventory(items: Item[], userId: string): Promise<void> {
     const itemIds = items.map((item) => item._id.toHexString());
     const filter: FilterQuery<User> = { _id: userId };
-    const options: UpdateOneOptions = { upsert: true };
     const updateQuery: UpdateQuery<User> = {
       $push: {
         inventory: {
@@ -57,7 +56,76 @@ export class UserService {
       },
     };
     try {
-      await this.userCollection.updateOne(filter, updateQuery, options);
+      await this.userCollection.updateOne(filter, updateQuery);
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+
+  async equipItem(item: Item, userId: string): Promise<void> {
+    const filter: FilterQuery<User> = { _id: userId };
+    const updateQuery: UpdateQuery<User> = {
+      $push: {
+        equipped_items: item,
+      },
+    };
+    try {
+      await this.userCollection.updateOne(filter, updateQuery);
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+
+  // Remove the item from the equipped_items of the user AND
+  // add it back to the inventory
+  async unequipItem(item: Item, userId: string): Promise<void> {
+    const filter: FilterQuery<User> = { _id: userId };
+    const unequipItemOperation: BulkWriteOperation<User> = {
+      updateOne: {
+        filter: filter,
+        update: {
+          $pull: { equipped_items: item },
+        },
+      },
+    };
+    const addItemToInventoryOperation: BulkWriteOperation<User> = {
+      updateOne: {
+        filter: filter,
+        update: {
+          $push: { inventory: item._id.toHexString() },
+        },
+      },
+    };
+
+    try {
+      await this.userCollection.bulkWrite([unequipItemOperation, addItemToInventoryOperation]);
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+
+  async removeItemFromUserInventory(itemId: string, userId: string): Promise<void> {
+    // Update the matching itemId to null
+    const firstOperation: BulkWriteOperation<User> = {
+      updateOne: {
+        filter: { _id: userId, inventory: itemId },
+        update: {
+          $unset: { 'inventory.$': '' },
+        },
+      },
+    };
+    // Delete the itemId which is null (that we juste setted before)
+    const secondOperation: BulkWriteOperation<User> = {
+      updateOne: {
+        filter: { _id: userId, inventory: undefined },
+        update: {
+          $pull: { inventory: undefined },
+        },
+      },
+    };
+
+    try {
+      await this.userCollection.bulkWrite([firstOperation, secondOperation]);
     } catch (error) {
       throw new Error(error.message);
     }

@@ -28,6 +28,7 @@ module.exports = class DeleteItemsCommand extends DbotCommand {
       try {
         await this.client.itemService.deleteItems();
       } catch (error) {
+        this.client.logger.logError(error.message);
         replyMessage = i18next.t('error.unexpected');
         return message.reply(replyMessage);
       }
