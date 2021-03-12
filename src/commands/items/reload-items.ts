@@ -16,8 +16,9 @@ module.exports = class ReloadItemsCommand extends DbotCommand {
   }
 
   async run(message: CommandoMessage): Promise<Message> {
+    const lang: string = this.client.provider.get(message.guild, 'lang', 'en');
     // reload the items
     await this.client.itemService.initializeItems();
-    return message.say(i18next.t('items:reloadItems.returnMessage'));
+    return message.say(i18next.t('items:reloadItems.returnMessage', { lng: lang }));
   }
 };

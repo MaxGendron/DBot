@@ -20,29 +20,29 @@
   },
   "homepage": "https://github.com/MaxGendron/DBot#readme",
   "dependencies": {
-    "commando-provider-mongo": "^2.0.2",
+    "commando-provider-mongo": "^2.1.0",
     "discord.js": "^12.5.1",
     "discord.js-commando": "github:discordjs/Commando",
     "dotenv": "^8.2.0",
-    "i18next": "^19.8.5",
-    "i18next-fs-backend": "^1.0.8",
-    "mongodb": "^3.6.3",
+    "i18next": "^19.9.2",
+    "i18next-fs-backend": "^1.1.0",
+    "mongodb": "^3.6.4",
     "reflect-metadata": "^0.1.13",
-    "typedjson": "^1.6.0",
+    "typedjson": "^1.7.0",
     "winston": "^3.3.3"
   },
   "devDependencies": {
     "@types/i18next-fs-backend": "^1.0.0",
-    "@types/mongodb": "^3.6.3",
-    "@types/node": "^14.14.22",
+    "@types/mongodb": "^3.6.9",
+    "@types/node": "^14.14.33",
     "@typescript-eslint/eslint-plugin": "4.14.1",
     "@typescript-eslint/parser": "4.14.1",
-    "eslint": "^7.18.0",
+    "eslint": "^7.21.0",
     "eslint-config-prettier": "^7.2.0",
     "eslint-plugin-import": "^2.22.1",
     "nodemon": "^2.0.7",
     "prettier": "2.2.1",
     "ts-node": "^9.1.1",
-    "typescript": "^3.7.4"
+    "typescript": "^3.9.9"
   }
 }
