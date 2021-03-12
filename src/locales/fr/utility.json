@@ -1,0 +1,9 @@
+{
+  "lang": {
+    "description": "Modifiez la langue du bot pour le serveur actuel.",
+    "args": {
+      "lang": "Entrez la langue souhaitée, l'une des suivantes: \"{{langs}}\""
+    },
+    "returnMessage": "La langue du serveur a été modifiée en \"{{currentLang}}\""
+  }
+}

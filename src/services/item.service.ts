@@ -113,15 +113,15 @@ export class ItemService {
   }
 
   // Create an MessageEmbed from a item
-  createMessageEmbed(item: Item, client: DbotClient, author: User): MessageEmbed {
+  createMessageEmbed(item: Item, client: DbotClient, author: User, lang: string): MessageEmbed {
     // TODO: upload icon to cdn and use in thumbnail instead of in the title
     const embed = new MessageEmbed()
       .setColor(Const.EmbedColor)
       .setTitle(`${client.emojis.resolve(item.iconId)?.toString()} ${item.name}`)
       .addFields(
-        { name: i18next.t('items:type'), value: item.type },
-        { name: i18next.t('items:rarity'), value: ItemRarityEnum[item.rarity] },
-        { name: i18next.t('items:stats'), value: client.itemService.getFormattedStats(item.stats) },
+        { name: i18next.t('items:type', { lng: lang }), value: item.type },
+        { name: i18next.t('items:rarity', { lng: lang }), value: ItemRarityEnum[item.rarity] },
+        { name: i18next.t('items:stats', { lng: lang }), value: client.itemService.getFormattedStats(item.stats) },
       );
     //Add id field if author is owner
     if (client.isOwner(author)) embed.addField('id', item._id.toHexString());
