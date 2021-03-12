@@ -30,11 +30,12 @@ module.exports = class EquipCommand extends DbotCommand {
   }
 
   async run(message: CommandoMessage, { itemName }): Promise<Message> {
+    const lang: string = this.client.provider.get(message.guild, 'lang', 'en');
     const author = message.author;
     // Get the item the user requested
     const itemToEquip = this.client.itemService.getItemByName(itemName);
     if (!itemToEquip) {
-      const replyMessage = i18next.t('error.noItemFoundForName', { itemName: itemName });
+      const replyMessage = i18next.t('error.noItemFoundForName', { itemName: itemName, lng: lang });
       return message.reply(replyMessage);
     }
 
@@ -48,7 +49,7 @@ module.exports = class EquipCommand extends DbotCommand {
         const equippedItem = user.equipped_items.filter((i) => i.type === itemToEquip.type)[0];
         if (equippedItem) {
           // Ask the user if he wants to replace the equipped item
-          const askMessage = i18next.t('users:equip.wantsReplaceItem', { itemName: equippedItem.name });
+          const askMessage = i18next.t('users:equip.wantsReplaceItem', { itemName: equippedItem.name, lng: lang });
           await message.reply(askMessage);
           // Get the user response
           const wantsToReplace = await Util.verifyUserReponse(message.channel, message.author);
@@ -56,7 +57,7 @@ module.exports = class EquipCommand extends DbotCommand {
           // Remove the equipped item & add it back to the userInventory
           if (wantsToReplace) await this.client.userService.unequipItem(equippedItem, author.id);
           else {
-            const replyMessage = i18next.t('reply.cancelledCommand');
+            const replyMessage = i18next.t('reply.cancelledCommand', { lng: lang });
             return message.reply(replyMessage);
           }
         }
@@ -70,16 +71,16 @@ module.exports = class EquipCommand extends DbotCommand {
         const formattedItem = `${this.client.emojis.resolve(itemToEquip.iconId)?.toString()} **${
           itemToEquip.name
         }**, (${ItemRarityEnum[itemToEquip.rarity]})`;
-        const returnMessage = `${author.username}: ${formattedItem} ${i18next.t('users:equip.response')}`;
+        const returnMessage = `${author.username}: ${formattedItem} ${i18next.t('users:equip.response', { lng: lang })}`;
         return message.say(returnMessage);
       } else {
         // If the user don't have the item in his inventory, return error
-        const replyMessage = i18next.t('users:equip.itemNotInInventory', { itemName: itemToEquip.name });
+        const replyMessage = i18next.t('users:equip.itemNotInInventory', { itemName: itemToEquip.name, lng: lang });
         return message.reply(replyMessage);
       }
     } catch (e) {
       this.client.logger.logError(e.message);
-      const unexpectedMessage = i18next.t('error.unexpected');
+      const unexpectedMessage = i18next.t('error.unexpected', { lng: lang });
       return message.reply(unexpectedMessage);
     }
   }

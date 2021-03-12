@@ -26,6 +26,7 @@ module.exports = class ProfileCommand extends DbotCommand {
   }
 
   async run(message: CommandoMessage): Promise<Message> {
+    const lang: string = this.client.provider.get(message.guild, 'lang', 'en');
     const author = message.author;
     const avatarURL = author.displayAvatarURL();
     let userItems: Item[] = [];
@@ -33,38 +34,38 @@ module.exports = class ProfileCommand extends DbotCommand {
       userItems = (await this.client.userService.getUserById(author.id)).equipped_items;
     } catch (e) {
       this.client.logger.logError(e.message);
-      const unexpectedMessage = i18next.t('error.unexpected');
+      const unexpectedMessage = i18next.t('error.unexpected', { lng: lang });
       return message.reply(unexpectedMessage);
     }
     const embed = new MessageEmbed()
       .setColor(Const.EmbedColor)
-      .setAuthor(i18next.t('users:profile.authorName', { username: author.username }), avatarURL)
+      .setAuthor(i18next.t('users:profile.authorName', { username: author.username, lng: lang }), avatarURL)
       .setThumbnail(avatarURL)
       .addFields(
-        { name: i18next.t('items:stats'), value: this.getItemsStats(userItems) },
-        { name: i18next.t('users:profile.equipped'), value: this.formatEquippedItems(userItems) },
+        { name: i18next.t('items:stats', { lng: lang }), value: this.getItemsStats(userItems, lang) },
+        { name: i18next.t('users:profile.equipped', { lng: lang }), value: this.formatEquippedItems(userItems, lang) },
       );
     return message.embed(embed);
   }
 
-  private formatEquippedItems(items: Item[]): string {
+  private formatEquippedItems(items: Item[], lang): string {
     let result = '';
     // Iterate over itemType enum value
     Object.values(ItemTypeEnum).forEach((value) => {
       // Find the item which has that enum value
       const item = items.find((i) => i.type === value);
-      const valueLocalized = i18next.t(`enum:itemTypeEnum.${value}`);
+      const valueLocalized = i18next.t(`enum:itemTypeEnum.${value}`, { lng: lang });
       // TODO: Add emoji for each itemType
       if (item)
         result += `${valueLocalized}: ${this.client.emojis.resolve(item.iconId)?.toString()} **${item.name}** (${
           ItemRarityEnum[item.rarity]
         })\n`;
-      else result += `${valueLocalized}: ${i18next.t('items:noItem')}\n`;
+      else result += `${valueLocalized}: ${i18next.t('items:noItem', { lng: lang })}\n`;
     });
     return result;
   }
 
-  private getItemsStats(items: Item[]): string {
+  private getItemsStats(items: Item[], lang): string {
     // Get the total of each ItemStatsTypeEnum
     let totalAttack = 0;
     items.forEach((item) => {
@@ -75,6 +76,6 @@ module.exports = class ProfileCommand extends DbotCommand {
       });
     });
 
-    return `${i18next.t('enum:itemStatsType.attack')}: ${totalAttack}`;
+    return `${i18next.t('enum:itemStatsType.attack', { lng: lang })}: ${totalAttack}`;
   }
 };

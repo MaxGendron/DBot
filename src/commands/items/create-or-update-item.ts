@@ -37,7 +37,8 @@ module.exports = class CreateOrUpdateItemCommand extends DbotCommand {
   }
 
   async run(message: CommandoMessage, { itemJson, id }): Promise<Message> {
-    const unexpectedMessage = i18next.t('error.unexpected');
+    const lang: string = this.client.provider.get(message.guild, 'lang', 'en');
+    const unexpectedMessage = i18next.t('error.unexpected', { lng: lang });
     //Desirialize the json
     let item: Item | undefined;
     try {
@@ -49,7 +50,7 @@ module.exports = class CreateOrUpdateItemCommand extends DbotCommand {
       item = serializer.parse(itemJson);
     } catch (error) {
       this.client.logger.logError(`Error Deserializing:\n${error.message}`);
-      const replyMessage = i18next.t('error.deserialize');
+      const replyMessage = i18next.t('error.deserialize', { lng: lang });
       return message.reply(replyMessage);
     }
 
@@ -64,13 +65,13 @@ module.exports = class CreateOrUpdateItemCommand extends DbotCommand {
         this.client.logger.logError(error.message);
         // E11000 is the mongoDB error code for duplicate key error (unique in this case)
         if (error.message && error.message.startsWith('E11000')) {
-          const replyMessage = i18next.t('error.itemWithSameName');
+          const replyMessage = i18next.t('error.itemWithSameName', { lng: lang });
           return message.reply(replyMessage);
         }
         return message.reply(unexpectedMessage);
       }
-      const embed = this.client.itemService.createMessageEmbed(newItem, this.client, message.author);
-      return message.embed(embed, i18next.t('items:createOrUpdateItem.returnMessage'));
+      const embed = this.client.itemService.createMessageEmbed(newItem, this.client, message.author, lang);
+      return message.embed(embed, i18next.t('items:createOrUpdateItem.returnMessage', { lng: lang }));
     } else {
       // Shouldn't happend
       return message.reply(unexpectedMessage);

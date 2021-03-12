@@ -26,18 +26,19 @@ module.exports = class DeleteItemCommand extends DbotCommand {
   }
 
   async run(message: CommandoMessage, { id }): Promise<Message> {
+    const lang: string = this.client.provider.get(message.guild, 'lang', 'en');
     // Delete the item
     try {
       await this.client.itemService.deleteItem(id);
     } catch (error) {
       this.client.logger.logError(error.message);
       if (error.message === 'No document matching') {
-        const replyMessage = i18next.t('error.noDocumentFound');
+        const replyMessage = i18next.t('error.noDocumentFound', { lng: lang });
         return message.reply(replyMessage);
       }
-      const replyMessage = i18next.t('error.unexpected');
+      const replyMessage = i18next.t('error.unexpected', { lng: lang });
       return message.reply(replyMessage);
     }
-    return message.say(i18next.t('items:deleteItem.returnMessage', { id: id }));
+    return message.say(i18next.t('items:deleteItem.returnMessage', { id: id, lng: lang }));
   }
 };

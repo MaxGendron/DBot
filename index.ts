@@ -1,3 +1,4 @@
+import { Const } from './src/utils/const';
 import 'reflect-metadata';
 import { DbotClient } from './src/dbot-client';
 import path = require('path');
@@ -11,13 +12,12 @@ dotenv.config();
 
 (async (): Promise<void> => {
   // i18n
-  const langs = ['en', 'fr'];
   const i18nextOptions: InitOptions = {
     lng: 'en',
     fallbackLng: 'en',
-    supportedLngs: langs,
-    preload: langs,
-    ns: ['global', 'items', 'users', 'enum'],
+    supportedLngs: Const.Langs,
+    preload: Const.Langs,
+    ns: ['global', 'items', 'users', 'enum', 'utility'],
     defaultNS: 'global',
     backend: {
       loadPath: 'src/locales/{{lng}}/{{ns}}.json',
@@ -41,6 +41,7 @@ dotenv.config();
     .registerGroups([
       ['items', 'Items'],
       ['users', 'Users'],
+      ['utility', 'Utility'],
     ])
     .registerDefaultGroups()
     .registerDefaultCommands({

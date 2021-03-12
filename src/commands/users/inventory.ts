@@ -46,6 +46,7 @@ module.exports = class InventoryCommand extends DbotCommand {
   }
 
   async run(message: CommandoMessage, { itemType }): Promise<Message> {
+    const lang: string = this.client.provider.get(message.guild, 'lang', 'en');
     const author = message.author;
     // Get the items
     let itemIds: string[] = [];
@@ -53,7 +54,7 @@ module.exports = class InventoryCommand extends DbotCommand {
       itemIds = (await this.client.userService.getUserById(author.id)).inventory;
     } catch (e) {
       this.client.logger.logError(e.message);
-      const unexpectedMessage = i18next.t('error.unexpected');
+      const unexpectedMessage = i18next.t('error.unexpected', { lng: lang });
       return message.reply(unexpectedMessage);
     }
     const inventoryItems = this.client.itemService.getItemsGroupedByType(itemIds, itemType);
@@ -65,7 +66,7 @@ module.exports = class InventoryCommand extends DbotCommand {
     this.pagingCollection.set(author.id, inventoryPaging);
 
     // Create the messageEmbed
-    const embed = await this.createMessageEmbed(author, inventoryPaging);
+    const embed = await this.createMessageEmbed(author, inventoryPaging, lang);
     const msg = await message.embed(embed);
 
     // Add reactions to the message
@@ -85,37 +86,38 @@ module.exports = class InventoryCommand extends DbotCommand {
     const collector = msg.createReactionCollector(filter, options);
 
     // Listen on collect/remove to change paging of inventory
+    // Not sure of using var outside of the "listen" method, but see no other way
+    // to retreive message stuff (like guild or user)
     collector.on('collect', async (reaction, user) => {
-      await this.handleCollectorResponse(reaction, user);
+      await this.handleCollectorResponse(reaction, user, lang);
     });
     collector.on('remove', async (reaction, user) => {
-      await this.handleCollectorResponse(reaction, user);
+      await this.handleCollectorResponse(reaction, user, lang);
     });
     // Listen on end to remove from the collection
     collector.on('end', () => {
-      // Not sure of this, didn't find another way to retrieve authorId...
       this.pagingCollection.delete(author.id);
     });
 
     return msg;
   }
 
-  private async createMessageEmbed(author: User, inventoyPaging: InventoryPaging): Promise<MessageEmbed> {
+  private async createMessageEmbed(author: User, inventoyPaging: InventoryPaging, lang): Promise<MessageEmbed> {
     const avatarURL = author.displayAvatarURL();
     const embed = new MessageEmbed()
       .setColor(Const.EmbedColor)
-      .setAuthor(i18next.t('users:inventory.authorName', { username: author.username }), avatarURL);
-    await this.addInventoryItemsToEmbed(embed, inventoyPaging);
+      .setAuthor(i18next.t('users:inventory.authorName', { username: author.username, lng: lang }), avatarURL);
+    await this.addInventoryItemsToEmbed(embed, inventoyPaging, lang);
     return embed;
   }
 
-  private async addInventoryItemsToEmbed(embed: MessageEmbed, inventoyPaging: InventoryPaging): Promise<void> {
+  private async addInventoryItemsToEmbed(embed: MessageEmbed, inventoyPaging: InventoryPaging, lang): Promise<void> {
     const inventoryItems = inventoyPaging.inventoryItems;
     const startIndex = inventoyPaging.startIndex;
     const endIndex = startIndex + Const.DefaultPagingRange;
     let index = 0;
 
-    if (inventoryItems.size === 0) embed.setDescription(i18next.t('items:noInventoryItems'));
+    if (inventoryItems.size === 0) embed.setDescription(i18next.t('items:noInventoryItems', { lng: lang }));
     else {
       // Loop through the collection which contains items grouped by itemType
       inventoryItems.each(async (items: ItemWithQty[], key: string) => {
@@ -141,7 +143,7 @@ module.exports = class InventoryCommand extends DbotCommand {
           // Increment index
           ++index;
         });
-        embed.addField(i18next.t(`enum:itemTypeEnum.${key}`), value);
+        embed.addField(i18next.t(`enum:itemTypeEnum.${key}`, { lng: lang }), value);
       });
 
       // Add footer
@@ -152,7 +154,7 @@ module.exports = class InventoryCommand extends DbotCommand {
     }
   }
 
-  private async handleCollectorResponse(reaction: MessageReaction, user: User): Promise<void> {
+  private async handleCollectorResponse(reaction: MessageReaction, user: User, lang): Promise<void> {
     // Get the paging of the user
     const inventoryPaging = this.pagingCollection.get(user.id);
     if (!inventoryPaging) return;
@@ -170,7 +172,7 @@ module.exports = class InventoryCommand extends DbotCommand {
     this.pagingCollection.set(user.id, inventoryPaging);
 
     // Edit the message with the new value
-    const embed = await this.createMessageEmbed(user, inventoryPaging);
+    const embed = await this.createMessageEmbed(user, inventoryPaging, lang);
     await reaction.message.edit(embed);
   }
 };

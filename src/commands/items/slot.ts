@@ -33,8 +33,9 @@ module.exports = class SlotCommand extends DbotCommand {
   }
 
   async run(message: CommandoMessage): Promise<Message> {
+    const lang: string = this.client.provider.get(message.guild, 'lang', 'en');
     const author = message.author;
-    const unexpectedMessage = i18next.t('error.unexpected');
+    const unexpectedMessage = i18next.t('error.unexpected', { lng: lang });
     // Get all items grouped by rarity
     const items = this.client.itemService.getItemsGroupedByRarity();
     const itemsWon: Item[] = [];
@@ -97,7 +98,7 @@ module.exports = class SlotCommand extends DbotCommand {
     }
 
     // Format the items won and return to the user
-    const returnMessage = `${author.username}: ${this.formatItemsWon(itemsWon, user.inventory)}`;
+    const returnMessage = `${author.username}: ${this.formatItemsWon(itemsWon, user.inventory, lang)}`;
     return message.say(returnMessage);
   }
 
@@ -125,13 +126,13 @@ module.exports = class SlotCommand extends DbotCommand {
     return message;
   }
 
-  formatItemsWon(itemsWon: Item[], userInventory: string[]): string {
-    if (itemsWon.length === 0) return i18next.t('items:slot.noWin');
+  formatItemsWon(itemsWon: Item[], userInventory: string[], lang): string {
+    if (itemsWon.length === 0) return i18next.t('items:slot.noWin', { lng: lang });
     let returnMessage = '';
     itemsWon.forEach((item) => {
       // If the user don't already have the item, show a "new item" badge
       if (!userInventory.includes(item._id.toHexString())) returnMessage += `${Const.NewItemIcon} `;
-      returnMessage += `${i18next.t('items:slot.won')} ${this.client.emojis.resolve(item.iconId)?.toString()} **${
+      returnMessage += `${i18next.t('items:slot.won', { lng: lang })} ${this.client.emojis.resolve(item.iconId)?.toString()} **${
         item.name
       }** (${ItemRarityEnum[item.rarity]})\n`;
     });
