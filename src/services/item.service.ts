@@ -120,7 +120,7 @@ export class ItemService {
       .setTitle(`${client.emojis.resolve(item.iconId)?.toString()} ${item.name}`)
       .addFields(
         { name: i18next.t('items:type', { lng: lang }), value: item.type },
-        { name: i18next.t('items:rarity', { lng: lang }), value: ItemRarityEnum[item.rarity] },
+        { name: i18next.t('items:rarity', { lng: lang }), value: Const.RarityIcons.get(item.rarity) },
         { name: i18next.t('items:stats', { lng: lang }), value: client.itemService.getFormattedStats(item.stats) },
       );
     //Add id field if author is owner
