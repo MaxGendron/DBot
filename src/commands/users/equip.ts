@@ -1,3 +1,4 @@
+import { Const } from './../../utils/const';
 import { Util } from './../../utils/util';
 import { Message } from 'discord.js';
 import { CommandoMessage } from 'discord.js-commando';
@@ -70,7 +71,7 @@ module.exports = class EquipCommand extends DbotCommand {
         // Return user confirmation
         const formattedItem = `${this.client.emojis.resolve(itemToEquip.iconId)?.toString()} **${
           itemToEquip.name
-        }**, (${ItemRarityEnum[itemToEquip.rarity]})`;
+        }** ${Const.RarityIcons.get(itemToEquip.rarity)}`;
         const returnMessage = `${author.username}: ${formattedItem} ${i18next.t('users:equip.response', { lng: lang })}`;
         return message.say(returnMessage);
       } else {

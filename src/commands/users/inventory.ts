@@ -134,9 +134,7 @@ module.exports = class InventoryCommand extends DbotCommand {
           // Only add items if index is between start & end
           if (index >= startIndex && index < endIndex) {
             const item = itemWithQty.item;
-            value += `${this.client.emojis.resolve(item.iconId)?.toString()} ${item.name} (${
-              ItemRarityEnum[item.rarity]
-            })`;
+            value += `${this.client.emojis.resolve(item.iconId)?.toString()} ${item.name} ${Const.RarityIcons.get(item.rarity)}`;
             if (itemWithQty.qty > 1) value += ` x${itemWithQty.qty}`;
             value += '\n';
           }
@@ -163,10 +161,12 @@ module.exports = class InventoryCommand extends DbotCommand {
       const startIndex = inventoryPaging.startIndex - Const.DefaultPagingRange;
       if (startIndex < 0) return;
       inventoryPaging.startIndex = startIndex;
+      inventoryPaging.currentPage--;
     } else if (reaction.emoji.name === '👉') {
       const startIndex = inventoryPaging.startIndex + Const.DefaultPagingRange;
       if (startIndex >= inventoryPaging.itemsCount) return;
       inventoryPaging.startIndex = startIndex;
+      inventoryPaging.currentPage++;
     }
     // Re-set paging into the collection
     this.pagingCollection.set(user.id, inventoryPaging);

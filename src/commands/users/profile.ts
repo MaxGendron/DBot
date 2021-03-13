@@ -57,9 +57,7 @@ module.exports = class ProfileCommand extends DbotCommand {
       const valueLocalized = i18next.t(`enum:itemTypeEnum.${value}`, { lng: lang });
       // TODO: Add emoji for each itemType
       if (item)
-        result += `${valueLocalized}: ${this.client.emojis.resolve(item.iconId)?.toString()} **${item.name}** (${
-          ItemRarityEnum[item.rarity]
-        })\n`;
+        result += `${valueLocalized}: ${this.client.emojis.resolve(item.iconId)?.toString()} **${item.name}** ${Const.RarityIcons.get(item.rarity)}\n`;
       else result += `${valueLocalized}: ${i18next.t('items:noItem', { lng: lang })}\n`;
     });
     return result;
