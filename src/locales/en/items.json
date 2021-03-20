@@ -5,7 +5,7 @@
   "noItem": "No item",
   "noInventoryItems": "No items in the inventory!",
   "getItem": {
-    "description": "Return a item matching the given name.",
+    "description": "Return informations of the item matching the given name.",
     "args": {
       "itemName": "Which item do you wanna look for? (Enter the name of the item)"
     }
