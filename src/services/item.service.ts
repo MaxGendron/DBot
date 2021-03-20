@@ -117,7 +117,7 @@ export class ItemService {
     // TODO: upload icon to cdn and use in thumbnail instead of in the title
     const embed = new MessageEmbed()
       .setColor(Const.EmbedColor)
-      .setTitle(`${client.emojis.resolve(item.iconId)?.toString()} ${item.name}`)
+      .setTitle(`${item.emojiId} ${item.name}`)
       .addFields(
         { name: i18next.t('items:type', { lng: lang }), value: item.type },
         { name: i18next.t('items:rarity', { lng: lang }), value: Const.RarityIcons.get(item.rarity) },

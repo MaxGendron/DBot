@@ -69,7 +69,7 @@ module.exports = class EquipCommand extends DbotCommand {
         await this.client.userService.removeItemFromUserInventory(itemToEquip._id.toHexString(), author.id);
 
         // Return user confirmation
-        const formattedItem = `${this.client.emojis.resolve(itemToEquip.iconId)?.toString()} **${
+        const formattedItem = `${itemToEquip.emojiId} **${
           itemToEquip.name
         }** ${Const.RarityIcons.get(itemToEquip.rarity)}`;
         const returnMessage = `${author.username}: ${formattedItem} ${i18next.t('users:equip.response', { lng: lang })}`;

@@ -111,7 +111,7 @@ module.exports = class SlotCommand extends DbotCommand {
     itemsToShow.each((value: Item[]) => {
       if (index < itemIndex) {
         value.forEach((item) => {
-          message += `${this.client.emojis.resolve(item.iconId)?.toString()}`;
+          message += `${item.emojiId}`;
         });
         message += '\n';
         index++;
@@ -132,7 +132,7 @@ module.exports = class SlotCommand extends DbotCommand {
     itemsWon.forEach((item) => {
       // If the user don't already have the item, show a "new item" badge
       if (!userInventory.includes(item._id.toHexString())) returnMessage += ':new: ';
-      returnMessage += `${i18next.t('items:slot.won', { lng: lang })} ${this.client.emojis.resolve(item.iconId)?.toString()} **${
+      returnMessage += `${i18next.t('items:slot.won', { lng: lang })} ${item.emojiId} **${
         item.name
       }** ${Const.RarityIcons.get(item.rarity)}\n`;
     });

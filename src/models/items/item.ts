@@ -16,7 +16,7 @@ export class Item {
 
   // Id of the emoji used for this item icon
   @jsonMember
-  iconId: string;
+  emojiId: string;
 
   // List of stats for the item
   @jsonArrayMember(ItemStats)
@@ -30,9 +30,9 @@ export class Item {
   @jsonMember
   rarity: ItemRarityEnum;
 
-  constructor(name: string, iconId: string, stats: ItemStats[], type: ItemTypeEnum, rarity: ItemRarityEnum) {
+  constructor(name: string, emojiId: string, stats: ItemStats[], type: ItemTypeEnum, rarity: ItemRarityEnum) {
     this.name = name;
-    this.iconId = iconId;
+    this.emojiId = emojiId;
     this.stats = stats;
     this.type = type;
     this.rarity = rarity;
