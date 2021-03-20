@@ -5,7 +5,6 @@ import { CommandoMessage } from 'discord.js-commando';
 import i18next from 'i18next';
 import { DbotClient } from '../../dbot-client';
 import { DbotCommand } from '../../dbot-command';
-import { ItemRarityEnum } from '../../models/items/enum/item-rarity.enum';
 
 module.exports = class EquipCommand extends DbotCommand {
   constructor(client: DbotClient) {
@@ -69,10 +68,12 @@ module.exports = class EquipCommand extends DbotCommand {
         await this.client.userService.removeItemFromUserInventory(itemToEquip._id.toHexString(), author.id);
 
         // Return user confirmation
-        const formattedItem = `${itemToEquip.emojiId} **${
-          itemToEquip.name
-        }** ${Const.RarityIcons.get(itemToEquip.rarity)}`;
-        const returnMessage = `${author.username}: ${formattedItem} ${i18next.t('users:equip.response', { lng: lang })}`;
+        const formattedItem = `${itemToEquip.emojiId} **${itemToEquip.name}** ${Const.ItemRarityIcons.get(
+          itemToEquip.rarity,
+        )}`;
+        const returnMessage = `${author.username}: ${formattedItem} ${i18next.t('users:equip.response', {
+          lng: lang,
+        })}`;
         return message.say(returnMessage);
       } else {
         // If the user don't have the item in his inventory, return error

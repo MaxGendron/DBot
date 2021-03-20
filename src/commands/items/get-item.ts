@@ -35,7 +35,6 @@ module.exports = class GetItemCommand extends DbotCommand {
       const replyMessage = i18next.t('error.noItemFoundForName', { itemName: itemName, lng: lang });
       return message.reply(replyMessage);
     }
-    // TODO: upload icon to cdn and use in thumbnail instead of in the title
     const embed = this.client.itemService.createMessageEmbed(item, this.client, message.author, lang);
     return message.embed(embed);
   }

@@ -7,7 +7,6 @@ import { Message, MessageEmbed } from 'discord.js';
 import { Const } from '../../utils/const';
 import { Item } from '../../models/items/item';
 import { ItemTypeEnum } from '../../models/items/enum/item-type.enum';
-import { ItemRarityEnum } from '../../models/items/enum/item-rarity.enum';
 
 module.exports = class ProfileCommand extends DbotCommand {
   constructor(client: DbotClient) {
@@ -55,9 +54,8 @@ module.exports = class ProfileCommand extends DbotCommand {
       // Find the item which has that enum value
       const item = items.find((i) => i.type === value);
       const valueLocalized = i18next.t(`enum:itemTypeEnum.${value}`, { lng: lang });
-      // TODO: Add emoji for each itemType
       if (item)
-        result += `${item.emojiId} **${item.name}** ${Const.RarityIcons.get(item.rarity)}\n`;
+        result += `${valueLocalized}: ${item.emojiId} **${item.name}** ${Const.ItemRarityIcons.get(item.rarity)}\n`;
       else result += `${valueLocalized}: ${i18next.t('items:noItem', { lng: lang })}\n`;
     });
     return result;
@@ -74,6 +72,8 @@ module.exports = class ProfileCommand extends DbotCommand {
       });
     });
 
-    return `${i18next.t('enum:itemStatsType.attack', { lng: lang })}: ${totalAttack}`;
+    return `${Const.ItemStatsTypeIcons.get(ItemStatsTypeEnum.Attack)} ${i18next.t('enum:itemStatsType.attack', {
+      lng: lang,
+    })}: ${totalAttack}`;
   }
 };

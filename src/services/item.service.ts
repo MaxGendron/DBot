@@ -107,7 +107,7 @@ export class ItemService {
   getFormattedStats(itemStats: ItemStats[]): string {
     const stats: string[] = [];
     itemStats.forEach((stat) => {
-      stats.push(`${stat.type}: ${stat.value}`);
+      stats.push(`${Const.ItemStatsTypeIcons.get(stat.type)} ${stat.type}: ${stat.value}`);
     });
     return stats.join('\n');
   }
@@ -120,7 +120,7 @@ export class ItemService {
       .setTitle(`${item.emojiId} ${item.name}`)
       .addFields(
         { name: i18next.t('items:type', { lng: lang }), value: item.type },
-        { name: i18next.t('items:rarity', { lng: lang }), value: Const.RarityIcons.get(item.rarity) },
+        { name: i18next.t('items:rarity', { lng: lang }), value: Const.ItemRarityIcons.get(item.rarity) },
         { name: i18next.t('items:stats', { lng: lang }), value: client.itemService.getFormattedStats(item.stats) },
       );
     //Add id field if author is owner

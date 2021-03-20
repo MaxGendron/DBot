@@ -14,7 +14,6 @@ import {
 import { Const } from '../../utils/const';
 import { ItemWithQty } from '../../models/items/item-with-qty';
 import { ItemTypeEnum } from '../../models/items/enum/item-type.enum';
-import { ItemRarityEnum } from '../../models/items/enum/item-rarity.enum';
 import { InventoryPaging } from '../../models/users/inventory-paging';
 
 module.exports = class InventoryCommand extends DbotCommand {
@@ -134,7 +133,7 @@ module.exports = class InventoryCommand extends DbotCommand {
           // Only add items if index is between start & end
           if (index >= startIndex && index < endIndex) {
             const item = itemWithQty.item;
-            value += `${item.emojiId} ${item.name} ${Const.RarityIcons.get(item.rarity)}`;
+            value += `${item.emojiId} ${item.name} ${Const.ItemRarityIcons.get(item.rarity)}`;
             if (itemWithQty.qty > 1) value += ` x${itemWithQty.qty}`;
             value += '\n';
           }

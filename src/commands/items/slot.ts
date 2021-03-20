@@ -134,7 +134,7 @@ module.exports = class SlotCommand extends DbotCommand {
       if (!userInventory.includes(item._id.toHexString())) returnMessage += ':new: ';
       returnMessage += `${i18next.t('items:slot.won', { lng: lang })} ${item.emojiId} **${
         item.name
-      }** ${Const.RarityIcons.get(item.rarity)}\n`;
+      }** ${Const.ItemRarityIcons.get(item.rarity)}\n`;
     });
     return returnMessage;
   }
