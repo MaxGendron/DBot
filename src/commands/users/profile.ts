@@ -55,8 +55,8 @@ module.exports = class ProfileCommand extends DbotCommand {
       const item = items.find((i) => i.type === value);
       const valueLocalized = i18next.t(`enum:itemTypeEnum.${value}`, { lng: lang });
       if (item)
-        result += `${valueLocalized}: ${item.emojiId} **${item.name}** ${Const.ItemRarityIcons.get(item.rarity)}\n`;
-      else result += `${valueLocalized}: ${i18next.t('items:noItem', { lng: lang })}\n`;
+        result += `${Const.ItemTypeIcons.get(value)} ${valueLocalized}: ${item.emojiId} **${item.name}** ${Const.ItemRarityIcons.get(item.rarity)}\n`;
+      else result += `${Const.ItemTypeIcons.get(value)} ${valueLocalized}: ${i18next.t('items:noItem', { lng: lang })}\n`;
     });
     return result;
   }
@@ -72,7 +72,7 @@ module.exports = class ProfileCommand extends DbotCommand {
       });
     });
 
-    return `${Const.ItemStatsTypeIcons.get(ItemStatsTypeEnum.Attack)} ${i18next.t('enum:itemStatsType.attack', {
+    return `${Const.ItemStatsTypeIcons.get(ItemStatsTypeEnum.Attack)} ${i18next.t('enum:itemStatsType.Attack', {
       lng: lang,
     })}: ${totalAttack}`;
   }

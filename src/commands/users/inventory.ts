@@ -140,7 +140,7 @@ module.exports = class InventoryCommand extends DbotCommand {
           // Increment index
           ++index;
         });
-        embed.addField(i18next.t(`enum:itemTypeEnum.${key}`, { lng: lang }), value);
+        embed.addField(`${Const.ItemTypeIcons.get(key as ItemTypeEnum)} ${i18next.t(`enum:itemTypeEnum.${key}`, { lng: lang })}`, value);
       });
 
       // Add footer

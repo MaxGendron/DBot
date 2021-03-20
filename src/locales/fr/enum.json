@@ -1,6 +1,12 @@
 {
   "itemStatsType": {
-    "attack": "Attaque"
+    "Attack": "Attaque"
+  },
+  "itemRarityEnum": {
+    "1": "Commun",
+    "2": "Rare",
+    "3": "Épic",
+    "4": "Légendaire"
   },
   "itemTypeEnum": {
     "Weapon": "Arme"
