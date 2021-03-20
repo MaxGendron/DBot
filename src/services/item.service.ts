@@ -35,7 +35,7 @@ export class ItemService {
   }
 
   getItemByName(name: string): Item | undefined {
-    return this.items.find((item) => item.name.toLowerCase() === name.toLowerCase());
+    return this.items.find((item) => item.name.toLowerCase() == name.toLowerCase());
   }
 
   async createOrUpdateItem(item: Item, itemId?: string): Promise<Item> {
