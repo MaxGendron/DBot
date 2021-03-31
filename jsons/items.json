@@ -36,7 +36,7 @@
     "rarity": 2
   },
   {
-    "name": "Diamong Sword",
+    "name": "Diamond Sword",
     "emojiId": "<:DiamondSword:822902842116538398>",
     "stats": [
       {
@@ -46,5 +46,89 @@
     ],
     "type": "Weapon",
     "rarity": 3
+  },
+  {
+    "name": "Fire Sword",
+    "emojiId": "<:FireSword:826639092488994838>",
+    "stats": [
+      {
+        "type": "Attack",
+        "value": 5
+      }
+    ],
+    "type": "Weapon",
+    "rarity": 2
+  },
+  {
+    "name": "Ice Sword",
+    "emojiId": "<:IceSword:826640660772814898>",
+    "stats": [
+      {
+        "type": "Attack",
+        "value": 5
+      }
+    ],
+    "type": "Weapon",
+    "rarity": 2
+  },
+  {
+    "name": "Fire & Ice Sword",
+    "emojiId": "<:FireIceSword:826643299547873280>",
+    "stats": [
+      {
+        "type": "Attack",
+        "value": 10
+      }
+    ],
+    "type": "Weapon",
+    "rarity": 3
+  },
+  {
+    "name": "Slime Sword",
+    "emojiId": ":SlimeSword:826646694459998259>",
+    "stats": [
+      {
+        "type": "Attack",
+        "value": 2
+      }
+    ],
+    "type": "Weapon",
+    "rarity": 1
+  },
+  {
+    "name": "Sword Blade",
+    "emojiId": "<:SwordBlade:826647903489359893>",
+    "stats": [
+      {
+        "type": "Attack",
+        "value": 1
+      }
+    ],
+    "type": "Weapon",
+    "rarity": 0
+  },
+  {
+    "name": "Broken Sword",
+    "emojiId": "<:BrokenSword:826651103151390730>",
+    "stats": [
+      {
+        "type": "Attack",
+        "value": 1
+      }
+    ],
+    "type": "Weapon",
+    "rarity": 0
+  },
+  {
+    "name": "Rusty Sword",
+    "emojiId": "<:RustySword:826654113977597992>",
+    "stats": [
+      {
+        "type": "Attack",
+        "value": 1
+      }
+    ],
+    "type": "Weapon",
+    "rarity": 0
   }
 ]
