@@ -130,5 +130,17 @@
     ],
     "type": "Weapon",
     "rarity": 0
+  },
+  {
+    "name": "Wooden Sword",
+    "emojiId": "<:WoodenSword:827014909287333899>",
+    "stats": [
+      {
+        "type": "Attack",
+        "value": 1
+      }
+    ],
+    "type": "Weapon",
+    "rarity": 0
   }
 ]
