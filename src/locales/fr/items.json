@@ -36,5 +36,10 @@
     "description": "Jouez à la machine à sous pour avoir une chance de gagner des items!",
     "noWin": "Bien joué, vous venez de gagner, rien.",
     "win": "Vous venez de gagner:"
+  },
+  "rarityCount": {
+    "description": "Retourne le nombre d'items par rareté.",
+    "embedTitle": "Nombre d'items par rareté",
+    "noItemsForRarity": "Il n'y a pas d'items pour cette rareté."
   }
 }

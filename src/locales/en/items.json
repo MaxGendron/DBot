@@ -36,5 +36,10 @@
     "description": "Play the slot machine to have a chance to win some items!",
     "noWin": "Well played, you just won, nothing.",
     "won": "You just won:"
+  },
+  "rarityCount": {
+    "description": "Return the count of items by rarity.",
+    "embedTitle": "Items count by rarity",
+    "noItemsForRarity": "There's no items for this rarity."
   }
 }
