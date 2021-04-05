@@ -20,7 +20,7 @@ module.exports = class GetItemCommand extends DbotCommand {
 
   run(message: CommandoMessage): Promise<Message> {
     const lang: string = this.client.provider.get(message.guild, 'lang', 'en');
-    // Get the item
+    // Get the items
     const items = this.client.itemService.getItemsGroupedByRarity();
     let desc = '';
     items.forEach((value: Item[], key: ItemRarityEnum) => {
