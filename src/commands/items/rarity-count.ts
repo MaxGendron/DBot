@@ -24,7 +24,7 @@ module.exports = class GetItemCommand extends DbotCommand {
     const items = this.client.itemService.getItemsGroupedByRarity();
     let desc = '';
     items.forEach((value: Item[], key: ItemRarityEnum) => {
-      desc += `${i18next.t(`enum:itemRarityEnum.${key + 1}`, { lng: lang })} ${Const.ItemRarityIcons.get(key)}: ${value.length} \n\n`;
+      desc += `${i18next.t(`enum:itemRarityEnum.${key}`, { lng: lang })} ${Const.ItemRarityIcons.get(key)}: ${value.length} \n\n`;
     });
     return message.embed(new MessageEmbed()
       .setTitle(i18next.t('items:rarityCount.embedTitle', { lng: lang }))
