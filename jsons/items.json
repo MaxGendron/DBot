@@ -154,5 +154,17 @@
     ],
     "type": "Weapon",
     "rarity": 3
+  },
+  {
+    "name": "Double Sword",
+    "emojiId": "<:DoubleSword:830639813878743041>",
+    "stats": [
+      {
+        "type": "Attack",
+        "value": 2
+      }
+    ],
+    "type": "Weapon",
+    "rarity": 1
   }
 ]
