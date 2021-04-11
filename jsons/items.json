@@ -142,5 +142,17 @@
     ],
     "type": "Weapon",
     "rarity": 0
+  },
+  {
+    "name": "Thunder Sword",
+    "emojiId": "<:ThunderSword:830630743327637585>",
+    "stats": [
+      {
+        "type": "Attack",
+        "value": 10
+      }
+    ],
+    "type": "Weapon",
+    "rarity": 3
   }
 ]
