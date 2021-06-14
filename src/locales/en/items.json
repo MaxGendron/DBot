@@ -41,5 +41,11 @@
     "description": "Return the count of items by rarity.",
     "embedTitle": "Items count by rarity",
     "noItemsForRarity": "There's no items for this rarity."
+  },
+  "itemsByRarity": {
+    "description": "Return each items for the rarity passed in param.",
+    "args": {
+      "itemRarity": "Please provide a valid item rarity"
+    }
   }
 }

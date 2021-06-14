@@ -1,5 +1,5 @@
 import { Const } from './../../utils/const';
-import { Util } from './../../utils/util';
+import { Utils } from '../../utils/utils';
 import { Message } from 'discord.js';
 import { CommandoMessage } from 'discord.js-commando';
 import i18next from 'i18next';
@@ -52,7 +52,7 @@ module.exports = class EquipCommand extends DbotCommand {
           const askMessage = i18next.t('users:equip.wantsReplaceItem', { itemName: equippedItem.name, lng: lang });
           await message.reply(askMessage);
           // Get the user response
-          const wantsToReplace = await Util.verifyUserReponse(message.channel, message.author);
+          const wantsToReplace = await Utils.verifyUserReponse(message.channel, message.author);
 
           // Remove the equipped item & add it back to the userInventory
           if (wantsToReplace) await this.client.userService.unequipItem(equippedItem, author.id);

@@ -16,7 +16,7 @@ import { ItemStats } from '../models/items/item-stats';
 import { Const } from '../utils/const';
 import i18next from 'i18next';
 import { ItemWithQty } from '../models/items/item-with-qty';
-import { Util } from '../utils/util';
+import { Utils } from '../utils/utils';
 
 export class ItemService {
   // MongoDB collection for the items
@@ -80,7 +80,7 @@ export class ItemService {
 
   getItemsGroupedByRarity(): Collection<ItemRarityEnum, Item[]> {
     const items = new Collection<ItemRarityEnum, Item[]>();
-    Util.getItemRarityEnumKeys().forEach((key) => {
+    Utils.getItemRarityEnumKeys().forEach((key) => {
       items.set(ItemRarityEnum[key], []);
     });
     this.items.each((value: Item) => {

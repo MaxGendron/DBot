@@ -41,5 +41,11 @@
     "description": "Retourne le nombre d'items par rareté.",
     "embedTitle": "Nombre d'items par rareté",
     "noItemsForRarity": "Il n'y a pas d'items pour cette rareté."
+  },
+  "itemsByRarity": {
+    "description": "Retourne chaque items pour la rareté passée en paramètre.",
+    "args": {
+      "itemRarity": "Veuillez fournir une rareté d'item valide"
+    }
   }
 }

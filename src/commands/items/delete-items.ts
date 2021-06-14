@@ -3,7 +3,7 @@ import { CommandoMessage } from 'discord.js-commando';
 import { DbotCommand } from '../../dbot-command';
 import i18next from 'i18next';
 import { Message } from 'discord.js';
-import { Util } from '../../utils/util';
+import { Utils } from '../../utils/utils';
 
 module.exports = class DeleteItemsCommand extends DbotCommand {
   constructor(client: DbotClient) {
@@ -22,7 +22,7 @@ module.exports = class DeleteItemsCommand extends DbotCommand {
     let replyMessage = i18next.t('reply.youSure', { lng: lang });
     await message.reply(replyMessage);
     // Get the user response
-    const userResponse = await Util.verifyUserReponse(message.channel, message.author);
+    const userResponse = await Utils.verifyUserReponse(message.channel, message.author);
 
     if (userResponse) {
       //Delete all the items
